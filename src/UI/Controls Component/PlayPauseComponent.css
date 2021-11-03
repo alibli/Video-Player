@@ -1,0 +1,12 @@
+#play-pause {
+    background-color: transparent;
+    border: none;
+}
+
+#play-pause:hover {
+    cursor: pointer;
+}
+
+.play-pause {
+    width: 30px;
+}

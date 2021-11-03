@@ -1,0 +1,15 @@
+.videoplayer {
+    position: relative;
+}
+
+.controls {
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.progress-bottom {
+    display: flex;
+
+}

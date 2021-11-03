@@ -1,0 +1,12 @@
+#mute-unmute {
+    background-color: transparent;
+    border: none;
+}
+
+#mute-unmute:hover {
+    cursor: pointer;
+}
+
+.mute-unmute {
+    width: 30px;
+}
