@@ -1,0 +1,12 @@
+#next-video {
+    background-color: transparent;
+    border: none;
+}
+
+#next-video :hover {
+    cursor: pointer;
+}
+
+.next-video {
+    width: 25px;
+}

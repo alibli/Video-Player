@@ -4,6 +4,14 @@
     position: relative;
 }
 
+.pre-next {
+    position: absolute;
+    bottom: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
 .controls {
     margin: 0;
     padding: 0;

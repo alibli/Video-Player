@@ -8,14 +8,10 @@ class PlayVideo extends Component {
     constructor() {
         super()
         this.state = {
-            isPlaying: player.getCurrentInfo('isPlaying')
+            isPlaying: player.getVideoStates('isPlaying')
         }
 
-        this.setState = this.setState.bind(this);
-    }
-
-    componentDidMount() {
-        player.actionSubject.subscribe(e => {
+        this.observer = e => {
             switch (e.action) {
                 case 'PLAY':
                     this.setState({ isPlaying: true });
@@ -28,7 +24,17 @@ class PlayVideo extends Component {
                 default:
                     break;
             }
-        })
+        };
+
+        this.setState = this.setState.bind(this);
+    }
+
+    componentDidMount() {
+        player.actionSubject.subscribe(this.observer);
+    }
+
+    componentWillUnmount() {
+        player.actionSubject.unsubscribe(this.observer);
     }
 
     onClickPlayPause() {
@@ -37,19 +43,17 @@ class PlayVideo extends Component {
 
     render() {
         return (
-            <>
-                <button
-                    id="play-pause"
-                    onClick={this.onClickPlayPause}>
-                    <img
-                        className="play-pause"
-                        src={
-                            this.state.isPlaying
-                                ? PauseIcon
-                                : PlayIcon}
-                        alt="play pause" />
-                </button>
-            </>
+            <button
+                id="play-pause"
+                onClick={this.onClickPlayPause}>
+                <img
+                    className="play-pause"
+                    src={
+                        this.state.isPlaying
+                            ? PauseIcon
+                            : PlayIcon}
+                    alt="play pause" />
+            </button>
         );
     }
 }

@@ -1,11 +1,13 @@
 import './App.css';
-import Player from './UI/Player Component/PlayerComponent';
+import PlayerComponent from './UI/Player Component/PlayerComponent';
 
 function App() {
   return (
-    <div className="app">
-      <Player />
-    </div>
+    <>
+      <div className="app">
+        <PlayerComponent />
+      </div>
+    </>
   );
 }
 

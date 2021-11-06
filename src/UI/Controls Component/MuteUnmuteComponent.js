@@ -8,14 +8,10 @@ class Mute extends Component {
     constructor() {
         super()
         this.state = {
-            isMute: player.getCurrentInfo('isMute')
+            isMute: player.getVideoStates('isMute')
         }
 
-        this.setState = this.setState.bind(this);
-    }
-
-    componentDidMount() {
-        player.actionSubject.subscribe(e => {
+        this.observer = e => {
             switch(e.action) {
                 case 'MUTE':
                     this.setState({isMute: true});
@@ -28,9 +24,19 @@ class Mute extends Component {
                 default:
                     break;
             }
-        })    
+        };
+
+        this.setState = this.setState.bind(this);
     }
 
+    componentDidMount() {
+        player.actionSubject.subscribe(this.observer);    
+    }
+
+    componentWillUnmount() {
+        player.actionSubject.unsubscribe(this.observer);
+    }
+    
     onClickMuteUnmute() {
         player.muteUnmuteVideo()
     }

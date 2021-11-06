@@ -1,0 +1,9 @@
+.progressbar-section {
+    width: 100%;
+}
+
+.progressbar {
+    background-color: white;
+    display: inline-block;
+    height: 3px;
+}

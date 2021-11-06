@@ -1,0 +1,12 @@
+#previous-video {
+    background-color: transparent;
+    border: none;
+}
+
+#previous-video :hover {
+    cursor: pointer;
+}
+
+.previous-video {
+    width: 25px;
+}
