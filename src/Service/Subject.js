@@ -4,7 +4,7 @@ export default class Subject {
     }
 
     subscribe(observer) {
-        this.observers.push(observer)
+        this.observers.push(observer);
     }
 
     unsubscribe(observer) {

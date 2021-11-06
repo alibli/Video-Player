@@ -1,20 +1,21 @@
 import './PlayerComponent.css';
-import PlayPause from '../Controls Component/PlayPauseComponent';
-import TimeComponent from '../Controls Component/TimeComponent';
-import ProgressbarComponent from '../Controls Component/ProgressbarComponent';
 import { Component, createRef } from 'react';
+import PlayPause from '../Controls Component/PlayPauseComponent';
+import Time from '../Controls Component/TimeComponent';
+import MuteUnmute from '../Controls Component/MuteUnmuteComponent';
+import ProgressbarComponent from '../Controls Component/ProgressbarComponent';
 import { player } from '../../Service/PlayerService';
 
 class VideoPlayer extends Component {
     constructor(props) {
         super(props);
 
-        this.videoRef = createRef()
+        this.videoRef = createRef();
     }
 
     componentDidMount() {
-        player.registerVideoElement(this.videoRef.current)
-        player.start()
+        player.registerVideoElement(this.videoRef.current);
+        player.start();
     }
 
     render() {
@@ -28,8 +29,8 @@ class VideoPlayer extends Component {
                     </div>
                     <div className="progress-bottom">
                         <PlayPause />
-                        <TimeComponent />
-
+                        <Time />
+                        <MuteUnmute />
                     </div>
                 </div>
             </div>

@@ -1,42 +1,41 @@
-import './MuteUnmute.css';
-import MuteIcon from '../../../assets/icons/Mute.png';
-import UnmuteIcon from '../../../assets/icons/Unmute.png';
+import './MuteUnmuteComponent.css';
 import { Component } from 'react';
-import { videoPlayer } from '../../../Service/VideoPlayer';
-import Observer from '../../../Service/observer/Observer';
-
-const muteUnmuteObs = new Observer()
+import MuteIcon from '../../assets/icons/Mute.png';
+import UnmuteIcon from '../../assets/icons/Unmute.png';
+import { player } from '../../Service/PlayerService';
 
 class Mute extends Component {
     constructor() {
         super()
         this.state = {
-            isMute: videoPlayer.playerSubject.getState('isMute')
+            isMute: player.getCurrentInfo('isMute')
         }
+
+        this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
-        videoPlayer.playerSubject.subscribe(muteUnmuteObs)
-        muteUnmuteObs.update = (action) => {
-            if (action === 'TOGGLE_MUTE') {
-                this.setState({ isMute: videoPlayer.playerSubject.getState('isMute') })
+        player.actionSubject.subscribe(e => {
+            switch(e.action) {
+                case 'MUTE':
+                    this.setState({isMute: true});
+                    break;
+
+                case 'UNMUTE':
+                    this.setState({isMute: false});
+                    break;
+                
+                default:
+                    break;
             }
-        }
-
-        this.setState = this.setState.bind(this)
-    }
-
-    componentWillUnmount() {
-        videoPlayer.playerSubject.unsubscribe(muteUnmuteObs)
+        })    
     }
 
     onClickMuteUnmute() {
-        videoPlayer.playerSubject.updateState('TOGGLE_MUTE')
+        player.muteUnmuteVideo()
     }
 
     render() {
-        const { isMute } = this.state
-
         return (
             <button
                 id="mute-unmute"
@@ -44,10 +43,10 @@ class Mute extends Component {
                 <img
                     className="mute-unmute"
                     src={
-                        isMute
+                        this.state.isMute
                             ? MuteIcon
                             : UnmuteIcon}
-                    alt="mute" />
+                    alt="mute unmute" />
             </button>
         );
     }

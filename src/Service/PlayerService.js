@@ -1,14 +1,14 @@
 import Subject from "./Subject";
-import SoulSrc from "/home/pc14/Documents/Video-Player/src/assets/videos/Soul.mp4";
-import InsideOutSrc from "/home/pc14/Documents/Video-Player/src/assets/videos/Inside Out.mp4";
-import LucaSrc from "/home/pc14/Documents/Video-Player/src/assets/videos/Luca.mp4";
-import CocoSrc from "/home/pc14/Documents/Video-Player/src/assets/videos/Coco.mp4";
-import UpSrc from "/home/pc14/Documents/Video-Player/src/assets/videos/Up.mp4";
-import SoulPic from "/home/pc14/Documents/Video-Player/src/assets/pics/SoulPic.jpg";
-import InsideOutPic from "/home/pc14/Documents/Video-Player/src/assets/pics/Inside Out Pic.jpg";
-import LucaPic from "/home/pc14/Documents/Video-Player/src/assets/pics/Luca Pic.jpg";
-import CocoPic from "/home/pc14/Documents/Video-Player/src/assets/pics/Coco Pic.jpg";
-import UpPic from "/home/pc14/Documents/Video-Player/src/assets/pics/Up Pic.jpg";
+import SoulSrc from "../assets/videos/Soul.mp4";
+import InsideOutSrc from "../assets/videos/Inside Out.mp4";
+import LucaSrc from "../assets/videos/Luca.mp4";
+import CocoSrc from "../assets/videos/Coco.mp4";
+import UpSrc from "../assets/videos/Up.mp4";
+import SoulPic from "../assets/pics/SoulPic.jpg";
+import InsideOutPic from "../assets/pics/Inside Out Pic.jpg";
+import LucaPic from "../assets/pics/Luca Pic.jpg";
+import CocoPic from "../assets/pics/Coco Pic.jpg";
+import UpPic from "../assets/pics/Up Pic.jpg";
 
 class PlayerService {
     constructor() {
@@ -68,6 +68,10 @@ class PlayerService {
         this.actionSubject = new Subject();
     }
 
+    getCurrentInfo(info){
+        return this[info]
+    }
+
     start() {
         var video = this.getCurrentVideo();
         this.loadVideo(video);
@@ -77,9 +81,7 @@ class PlayerService {
         if (!videoEl) {
             return;
         }
-
         this.videoEl = videoEl;
-
 
         videoEl.ontimeupdate = e => {
             this.timerSubject.notify({
@@ -101,7 +103,6 @@ class PlayerService {
                 video: this.currentVideo,
                 action: 'PAUSE'
             });
-
         } else if (!this.isPlaying) {
             this.videoEl.play();
 
@@ -109,10 +110,29 @@ class PlayerService {
                 video: this.currentVideo,
                 action: 'PLAY'
             });
-
         }
 
         this.isPlaying = !this.isPlaying;
+    }
+
+    muteUnmuteVideo() {
+        if(this.isMute) {
+            this.videoEl.muted = false;
+
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'UNMUTE'
+            });
+        } else if (!this.isMute) {
+            this.videoEl.muted = true;
+
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'MUTE'
+            });
+        }
+
+        this.isMute = !this.isMute;
     }
 
     //private

@@ -1,7 +1,6 @@
 import { Component } from 'react';
 import { player } from '../../Service/PlayerService';
 
-
 class ProgressbarComponent extends Component {
     constructor() {
         super()
@@ -9,34 +8,38 @@ class ProgressbarComponent extends Component {
             currentProgress: 0
         }
 
-        this.setState = this.setState.bind(this)
+        this.observer = e => {
+            this.setState({ currentProgress: e.time.progress })
+        }
+
+        this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
-        player.timerSubject.subscribe(e => {
-            this.setState({ currentProgress: e.time.progress })
-        })
+        player.timerSubject.subscribe(this.observer);
+    }
+
+    componentWillUnmount() {
+        player.timerSubject.unsubscribe(this.observer);
     }
 
     render() {
-        const { currentProgress } = this.state
+        const { currentProgress } = this.state;
 
         return (
-            <>
                 <div
                     style={{
-                        'width': '100%'
+                        width: '100%'
                     }}>
                     <div
                         style={{
                             backgroundColor: 'white',
                             display: 'inline-block',
-                            height: '5px',
+                            height: '3px',
                             width: currentProgress + '%'
                         }}>
                     </div>
                 </div>
-            </>
         );
     }
 }

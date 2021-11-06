@@ -1,17 +1,17 @@
 import './PlayPauseComponent.css';
+import { Component } from 'react';
 import PlayIcon from '../../assets/icons/Play.png';
 import PauseIcon from '../../assets/icons/Pause.png';
-import { Component } from 'react';
 import { player } from '../../Service/PlayerService';
 
 class PlayVideo extends Component {
     constructor() {
         super()
         this.state = {
-            isPlaying: true
+            isPlaying: player.getCurrentInfo('isPlaying')
         }
 
-        this.setState = this.setState.bind(this)
+        this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +32,7 @@ class PlayVideo extends Component {
     }
 
     onClickPlayPause() {
-        player.playPauseVideo()
+        player.playPauseVideo();
     }
 
     render() {

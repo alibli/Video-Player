@@ -1,6 +1,6 @@
+import './TimeComponent.css';
 import { Component } from 'react';
 import { player } from '../../Service/PlayerService';
-
 
 class TimeComponent extends Component {
     constructor() {
@@ -9,22 +9,31 @@ class TimeComponent extends Component {
             currentTime: 0
         }
 
-        this.setState = this.setState.bind(this)
+        this.observer = e => {
+            this.setState({currentTime: Math.trunc(e.time.current)});
+        }
+
+        this.setState = this.setState.bind(this);
     }
 
+
     componentDidMount() {
-        player.timerSubject.subscribe(e=>{
-            this.setState({currentTime: e.time.current})
-        })
+        player.timerSubject.subscribe(this.observer);
+    }
+
+    componentWillUnmount() {
+        player.timerSubject.unsubscribe(this.observer);
     }
 
     render() {
-        const { currentTime } = this.state
+        const { currentTime } = this.state;
 
         return (
-            <>
-                <p>{currentTime}</p>
-            </>
+            <div className="current-time">
+                <p>
+                    {currentTime}
+                </p>
+            </div>
         );
     }
 }
