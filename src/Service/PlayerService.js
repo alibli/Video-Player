@@ -16,36 +16,58 @@ class PlayerService {
 
         this.currentVideo = null;
 
-        this.videoStates = {
-            isPlaying: true,
+        this.volumeStates = {
             isMute: true,
-            isEnded: false
+            volumeValue: 50
+        };
+
+        this.videosStates = {
+            '1': {
+                isPlaying: false,
+                isEnded: false
+            },
+            '2': {
+                isPlaying: false,
+                isEnded: false
+            },
+            '3': {
+                isPlaying: false,
+                isEnded: false
+            },
+            '4': {
+                isPlaying: false,
+                isEnded: false
+            },
+            '5': {
+                isPlaying: false,
+                isEnded: false
+            }
         };
 
         this.videoList = [
             {
-                id: 1,
+                id: '1',
                 src: SoulSrc,
                 title: "Soul 2020 Offical Trailer",
                 description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named the film as one of the top 10 films of 2020.",
                 thumbnail: SoulPic
             },
             {
-                id: 2,
+                id: '2',
                 src: InsideOutSrc,
                 title: "Inside Out 2015 Offical Trailer",
                 description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Inside Out as one of the top 10 films of 2015.",
                 thumbnail: InsideOutPic
             },
             {
-                id: 3,
+                id: '3',
                 src: LucaSrc,
                 title: "Luca 2021 Offical Trailer",
                 description: "Produced by Pixar Animation Studios. The film received generally positive reviews from critics, with praise for its visuals, voice acting, and nostalgic feel.",
                 thumbnail: LucaPic
             },
             {
-                id: 4,
+                id: '4',
                 src: CocoSrc,
                 type: "video/mp4",
                 title: "Coco 2017 Offical Trailer",
@@ -53,7 +75,7 @@ class PlayerService {
                 thumbnail: CocoPic
             },
             {
-                id: 5,
+                id: '5',
                 src: UpSrc,
                 title: "Up 2009 Offical Trailer",
                 description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Up as one of the top 10 films of 2009.",
@@ -75,15 +97,53 @@ class PlayerService {
         return this.currentVideo;
     }
 
-    getVideoStates(state) {
-        if (this.videoStates[state]) {
-            return this.videoStates[state];
+    isPlaying(videoId) {
+        return this.getVideoStatesById(videoId, 'isPlaying');
+    }
+
+    getVideoStatesById(id, state) {
+        if (!this.videosStates[id]) {
+            return;
         }
+
+        return this.videosStates[id][state];
+    }
+
+    getCurrentVideoStates(state) {
+        this.getVideoStatesById(this.getCurrentVideo().id, state);
+    }
+
+    getVideoList() {
+        if (!this.videoList) {
+            return;
+        }
+
+        return this.videoList;
+    }
+
+    getVideosStates() {
+        if (!this.videosStates) {
+            return;
+        }
+
+        return this.videosStates;
+    }
+
+    getVolumeStates(state) {
+        return this.volumeStates[state];
     }
 
     //setters
-    setVideoStates(state, value) {
-        this.videoStates[state] = value;
+    setVideoStates(id, state) {
+        for (let key in state) {
+            this.videosStates[id][key] = state[key];
+        }
+    }
+
+    setVolumeStates(state) {
+        for (let key in state) {
+            this.volumeStates[key] = state[key];
+        }
     }
 
     //private methods
@@ -91,18 +151,32 @@ class PlayerService {
         if (!this.videoEl) {
             return;
         }
+
+        if (this.currentVideo) {
+            this.setVideoStates(this.currentVideo.id, { isPlaying: false });
+        } 
+
         let videoObj = this.videoList.find(video => video.id === id);
         this.currentVideo = videoObj;
         this.videoEl.src = videoObj.src;
-        this.videoEl.loadedMetadata = () => {
+        this.videoEl.poster = videoObj.thumbnail;
+
+        this.videoEl.onloadeddata = () => {
+            this.videoEl.currentTime = 130;
             this.videoEl.play();
+            this.setVideoStates(id, { isPlaying: true })
+
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'PLAY'
+            });
         }
     }
 
     //public methods
     start() {
-        var id = this.getCurrentVideo().id;
-        this.loadVideo(id);
+        let currentVideo = this.getCurrentVideo();
+        this.loadVideo(currentVideo.id);
     }
 
     registerVideoElement(videoEl) {
@@ -123,43 +197,56 @@ class PlayerService {
         };
 
         videoEl.onended = e => {
+            this.setVideoStates(this.getCurrentVideo().id, { isPlaying: false });
+
             this.setVideoStates('isEnded', true);
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'END'
             });
-        }
-    }
 
-    playPauseVideo() {
-        if (this.getVideoStates('isPlaying')) {
-            this.videoEl.pause();
-            this.setVideoStates('isPlaying', false);
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'PAUSE'
             });
-        } else if (!this.getVideoStates('isPlaying')) {
-            this.videoEl.play();
-            this.setVideoStates('isPlaying', true);
+        }
+    }
+
+    playPauseVideo() {
+        const isPlaying = this.getVideoStatesById(this.currentVideo.id, 'isPlaying');
+
+        if (isPlaying) {
+            this.videoEl.pause();
+            this.setVideoStates(this.currentVideo.id, { isPlaying: false });
             this.actionSubject.notify({
                 video: this.currentVideo,
-                action: 'PLAY'
+                action: 'PAUSE'
             });
+        } else if (!isPlaying) {
+            this.videoEl.play();
+            if (!this.videoEl.paused) {
+                this.setVideoStates(this.currentVideo.id, { isPlaying: true });
+                this.actionSubject.notify({
+                    video: this.currentVideo,
+                    action: 'PLAY'
+                });
+            }
         }
     }
 
     muteUnmuteVideo() {
-        if (this.getVideoStates('isMute')) {
+        const isMute = this.getVolumeStates('isMute');
+
+        if (isMute) {
             this.videoEl.muted = false;
-            this.setVideoStates('isMute', false);
+            this.setVolumeStates({ isMute: false });
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'UNMUTE'
             });
-        } else if (!this.getVideoStates('isMute')) {
+        } else if (!isMute) {
             this.videoEl.muted = true;
-            this.setVideoStates('isMute', true);
+            this.setVolumeStates({ isMute: false });
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'MUTE'
@@ -168,47 +255,67 @@ class PlayerService {
     }
 
     nextVideo() {
-        let nextVideo = this.videoList.find(video => video.id === this.currentVideo.id + 1);
+        let currentVideo = this.getCurrentVideo();
+        let videoList = this.getVideoList();
+        let nextVideoId = parseInt(currentVideo.id) + 1;
+        let nextVideo = videoList.find(video => video.id === nextVideoId.toString());
         if (!nextVideo) {
             return;
         }
-        this.loadVideo(this.currentVideo.id + 1);
-        this.actionSubject.notify({
-            video: this.currentVideo,
-            action: 'NEXT'
-        });
+        this.loadVideo(nextVideoId.toString());
     }
 
     previousVideo() {
-        let preVideo = this.videoList.find(video => video.id === this.currentVideo.id - 1);
+        let currentVideo = this.getCurrentVideo();
+        let videoList = this.getVideoList();
+        let preVideoId = parseInt(currentVideo.id) - 1;
+        let preVideo = videoList.find(video => video.id === preVideoId.toString());
         if (!preVideo) {
             return;
         }
-        this.loadVideo(this.currentVideo.id - 1);
-        this.actionSubject.notify({
-            video: this.currentVideo,
-            action: 'PREVIOUS'
-        });
+        this.loadVideo(preVideoId.toString());
     }
 
-    getFilteredVideoList() {
-        if (!this.currentVideo) {
-            return;
+    isLastVideo() {
+        let currentVideo = this.getCurrentVideo();
+        let videoList = this.getVideoList();
+        if (currentVideo.id === videoList[videoList.length - 1].id) {
+            return true;
+        } else {
+            return false;
         }
+    }
 
-        return this.videoList.filter(video => video.id !== this.currentVideo.id);
+    isfirstVideo() {
+        let currentVideo = this.getCurrentVideo();
+        let videoList = this.getVideoList();
+        if (currentVideo.id === videoList[0].id) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     selectVideo(id) {
-        let selectedVideo = this.videoList.find(video => video.id === id);
+        let videoList = this.getVideoList();
+        let selectedVideo = videoList.find(video => video.id === id);
         if (!selectedVideo) {
             return;
         }
         this.loadVideo(id);
-        this.actionSubject.notify({
-            video: this.currentVideo,
-            action: 'SELECT'
-        });
+    }
+
+    suggestListById(id) {
+        const peekCount = 2;
+        let videoList = this.getVideoList();
+        var myList = videoList.filter(video => video.id !== id);
+        const suggestions = [];
+        for (let i = 0; i < peekCount; i++) {
+            const index = Math.floor(Math.random() * (myList.length - 1));
+            suggestions.push(myList[index]);
+            myList.splice(index, 1);
+        }
+        return suggestions;
     }
 }
 

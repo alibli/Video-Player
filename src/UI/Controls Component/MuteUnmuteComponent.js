@@ -8,7 +8,7 @@ class Mute extends Component {
     constructor() {
         super()
         this.state = {
-            isMute: player.getVideoStates('isMute')
+            isMute: player.getVolumeStates('isMute')
         }
 
         this.observer = e => {
@@ -30,7 +30,7 @@ class Mute extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);    
+        player.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {

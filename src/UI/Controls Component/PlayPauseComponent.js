@@ -8,7 +8,7 @@ class PlayVideo extends Component {
     constructor() {
         super()
         this.state = {
-            isPlaying: player.getVideoStates('isPlaying')
+            isPlaying: player.getCurrentVideoStates('isPlaying')
         }
 
         this.observer = e => {
@@ -31,6 +31,7 @@ class PlayVideo extends Component {
 
     componentDidMount() {
         player.actionSubject.subscribe(this.observer);
+        
     }
 
     componentWillUnmount() {

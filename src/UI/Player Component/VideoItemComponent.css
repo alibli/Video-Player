@@ -1,0 +1,29 @@
+.videoitem-title{
+    padding-bottom: 0;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+.videoitem-main {
+    position: relative;
+}
+
+.videoitem-playpause {
+    position: absolute;
+    width: 50px;
+    bottom: 40%;
+    right: 40%;
+}
+
+.videoitem-img {
+    width: 200px;
+}
+
+.videoitem-button {
+    background-color: transparent;
+    border: none;
+}
+
+.videoitem-button:hover {
+    cursor: pointer;
+}

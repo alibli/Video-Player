@@ -11,11 +11,13 @@ class VideoInfoComponent extends Component {
         };
 
         this.observer = e => {
-            if (e.action === 'NEXT' || e.action === 'PREVIOUS' || e.action === 'VIDEO_SELECTED') {
+            if (e.action === 'PLAY' || e.action === 'PAUSE') {
                 this.setState({
                     title: e.video.title,
                     description: e.video.description
                 });
+            } else {
+                return;
             }
         }
 
@@ -32,7 +34,7 @@ class VideoInfoComponent extends Component {
 
     render() {
         return (
-            <div className="video-info">
+            <div className="info">
                 <h3>
                     {this.state.title}
                 </h3>
@@ -40,7 +42,6 @@ class VideoInfoComponent extends Component {
                     {this.state.description}
                 </p>
             </div>
-
         );
     }
 }

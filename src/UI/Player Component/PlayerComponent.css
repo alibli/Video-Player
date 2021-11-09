@@ -1,7 +1,18 @@
-.videoplayer {
-    margin: 0;
-    padding: 0;
+.main-title{
+    text-align: center;
+}
+.player {
+    display: flex;
+    flex-direction: column;
+}
+
+.video {
+    width: 800px;
     position: relative;
+}
+
+.video video {
+    width:100%;
 }
 
 .pre-next {
@@ -26,3 +37,13 @@
     width: 100%;
     display: flex;
 }
+
+.suggestlist-section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+    color: white;
+}
+

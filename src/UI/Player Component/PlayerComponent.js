@@ -8,50 +8,29 @@ import NextComponent from '../Controls Component/NextComponent';
 import PreviousComponent from '../Controls Component/PreviousComponent';
 import VideoInfoComponent from './VideoInfoComponent';
 import { player } from '../../Service/PlayerService';
-import VideoListComponent from '../Controls Component/VideoListComponent';
+import VideoListComponent from './VideoListComponent';
+import SuggestListComponent from './SuggestListComponent';
 
 class VideoPlayer extends Component {
     constructor() {
         super();
-
-        this.state = {
-            isEnded: player.getVideoStates('isEnded')
-        }
-
-        this.observer = e => {
-            switch (e.action) {
-                case 'END':
-                    this.setState({ isEnded: true });
-                    break;
-
-                case 'SELECT':
-                    this.setState({ isEnded: false });
-                    break;
-
-                default:
-                    break;
-            }
-        }
 
         this.videoRef = createRef();
     }
 
     componentDidMount() {
         player.registerVideoElement(this.videoRef.current);
-        player.actionSubject.subscribe(this.observer);
         player.start();
-    }
-
-    componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
     }
 
     render() {
         return (
-            <div className="videoplayer">
-                {
-                    !this.state.isEnded &&
-                    <>
+            <>
+                <div className="player">
+                    <h1 className="main-title">
+                        Best of Pixar Animation Studios Trailers
+                    </h1>
+                    <div className="video">
                         <video
                             autoPlay
                             muted
@@ -71,14 +50,23 @@ class VideoPlayer extends Component {
                                 <MuteUnmuteComponent />
                             </div>
                         </div>
+                        <div c
+                            lassName="suggestlist-section"
+                            style={{
+                                display: 'none'
+                            }}>
+                            <SuggestListComponent />
+                        </div>
+                    </div>
+                    <div className="video-info">
                         <VideoInfoComponent />
-                    </>
-                }
-                {
-                    this.state.isEnded &&
+                    </div>
+
+                </div>
+                <div className="videolist-section">
                     <VideoListComponent />
-                }
-            </div>
+                </div>
+            </>
         );
     }
 }

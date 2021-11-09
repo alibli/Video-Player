@@ -1,0 +1,11 @@
+.suggestlist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.suggestlist-title h2 {
+    text-align: center;
+}
