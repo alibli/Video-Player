@@ -1,3 +1,4 @@
+import './ProgressbarComponent.css';
 import { Component } from 'react';
 import { player } from '../../Service/PlayerService';
 
@@ -27,19 +28,20 @@ class ProgressbarComponent extends Component {
         const { currentProgress } = this.state;
 
         return (
+            <div
+                className="progressbar-section"
+                style={{
+                    width: '100%'
+                }}>
                 <div
                     style={{
-                        width: '100%'
+                        backgroundColor: 'white',
+                        display: 'inline-block',
+                        height: '3px',
+                        width: currentProgress + '%'
                     }}>
-                    <div
-                        style={{
-                            backgroundColor: 'white',
-                            display: 'inline-block',
-                            height: '3px',
-                            width: currentProgress + '%'
-                        }}>
-                    </div>
                 </div>
+            </div>
         );
     }
 }

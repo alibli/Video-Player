@@ -1,6 +1,3 @@
-.main-title{
-    text-align: center;
-}
 .player {
     display: flex;
     flex-direction: column;
@@ -36,14 +33,5 @@
 .progress-bottom {
     width: 100%;
     display: flex;
-}
-
-.suggestlist-section {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    bottom: 0;
-    background-color: black;
-    color: white;
 }
 

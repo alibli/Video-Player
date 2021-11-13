@@ -1,9 +1,17 @@
 .progressbar-section {
     width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+#drag-button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: white;
 }
 
 .progressbar {
-    background-color: white;
     display: inline-block;
     height: 3px;
 }

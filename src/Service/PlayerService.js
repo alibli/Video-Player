@@ -103,6 +103,7 @@ class PlayerService {
 
     getVideoStatesById(id, state) {
         if (!this.videosStates[id]) {
+            console.log("videoStates object of id number", id, "doesn't exist.");
             return;
         }
 
@@ -110,11 +111,13 @@ class PlayerService {
     }
 
     getCurrentVideoStates(state) {
-        this.getVideoStatesById(this.getCurrentVideo().id, state);
+        let currentVideo = this.getCurrentVideo();
+        this.getVideoStatesById(currentVideo.id, state);
     }
 
     getVideoList() {
         if (!this.videoList) {
+            console.log("videoList is empty.");
             return;
         }
 
@@ -123,6 +126,7 @@ class PlayerService {
 
     getVideosStates() {
         if (!this.videosStates) {
+            console.log("videosStates object is empty.");
             return;
         }
 
@@ -130,6 +134,10 @@ class PlayerService {
     }
 
     getVolumeStates(state) {
+        if (!this.volumeStates[state]) {
+            console.log(state, "doesn't exist in volumeStates object.");
+            return;
+        }
         return this.volumeStates[state];
     }
 
@@ -149,12 +157,13 @@ class PlayerService {
     //private methods
     loadVideo(id) {
         if (!this.videoEl) {
+            console.log("videoEl doesn't exist.");
             return;
         }
 
-        if (this.currentVideo) {
-            this.setVideoStates(this.currentVideo.id, { isPlaying: false });
-        } 
+        let currentVideo = this.getCurrentVideo()
+
+        this.setVideoStates(currentVideo.id, { isPlaying: false });
 
         let videoObj = this.videoList.find(video => video.id === id);
         this.currentVideo = videoObj;
@@ -181,6 +190,7 @@ class PlayerService {
 
     registerVideoElement(videoEl) {
         if (!videoEl) {
+            console.log("videoEl doesn't exist.");
             return;
         }
         this.videoEl = videoEl;
@@ -197,18 +207,21 @@ class PlayerService {
         };
 
         videoEl.onended = e => {
-            this.setVideoStates(this.getCurrentVideo().id, { isPlaying: false });
+            let currentVideo = this.getCurrentVideo();
 
-            this.setVideoStates('isEnded', true);
+            this.setVideoStates(currentVideo.id, { isPlaying: false });
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'PAUSE'
+            });
+
+            this.setVideoStates(currentVideo.id, { isEnded: true });
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'END'
             });
 
-            this.actionSubject.notify({
-                video: this.currentVideo,
-                action: 'PAUSE'
-            });
+
         }
     }
 
@@ -246,7 +259,7 @@ class PlayerService {
             });
         } else if (!isMute) {
             this.videoEl.muted = true;
-            this.setVolumeStates({ isMute: false });
+            this.setVolumeStates({ isMute: true });
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'MUTE'

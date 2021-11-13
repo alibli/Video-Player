@@ -6,6 +6,15 @@
     height: 100%;
 }
 
+.suggestlist-section {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    bottom: 0;
+    background-color: black;
+    color: white;
+}
+
 .suggestlist-title h2 {
     text-align: center;
 }

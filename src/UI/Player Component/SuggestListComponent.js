@@ -44,20 +44,22 @@ class SuggestListComponent extends Component {
 
     render() {
         return (
-            <div className="suggestlist">
-                <div className="suggestlist-title">
-                    <h2 >
-                        Suggestions
-                    </h2>
-                </div>
-                <div>
-                    {this.state.suggestedList.map((video, index) => {
-                        return (
-                            <VideoItemComponent
-                                key={index}
-                                video={video} />
-                        );
-                    })}
+            <div className=".suggestlist-section">
+                <div className="suggestlist">
+                    <div className="suggestlist-title">
+                        <h2 >
+                            Suggestions
+                        </h2>
+                    </div>
+                    <div>
+                        {this.state.suggestedList.map((video, index) => {
+                            return (
+                                <VideoItemComponent
+                                    key={index}
+                                    video={video} />
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
         );
