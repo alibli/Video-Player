@@ -9,6 +9,11 @@
     height: 10px;
     border-radius: 50%;
     background-color: white;
+    position: relative;
+}
+
+#drag-button:hover {
+    cursor: pointer;
 }
 
 .progressbar {

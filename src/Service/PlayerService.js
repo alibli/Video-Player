@@ -1,14 +1,4 @@
 import Subject from "./Subject";
-import SoulSrc from "../assets/videos/Soul.mp4";
-import InsideOutSrc from "../assets/videos/Inside Out.mp4";
-import LucaSrc from "../assets/videos/Luca.mp4";
-import CocoSrc from "../assets/videos/Coco.mp4";
-import UpSrc from "../assets/videos/Up.mp4";
-import SoulPic from "../assets/pics/SoulPic.jpg";
-import InsideOutPic from "../assets/pics/Inside Out Pic.jpg";
-import LucaPic from "../assets/pics/Luca Pic.jpg";
-import CocoPic from "../assets/pics/Coco Pic.jpg";
-import UpPic from "../assets/pics/Up Pic.jpg";
 
 class PlayerService {
     constructor() {
@@ -44,44 +34,7 @@ class PlayerService {
             }
         };
 
-        this.videoList = [
-            {
-                id: '1',
-                src: SoulSrc,
-                title: "Soul 2020 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named the film as one of the top 10 films of 2020.",
-                thumbnail: SoulPic
-            },
-            {
-                id: '2',
-                src: InsideOutSrc,
-                title: "Inside Out 2015 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Inside Out as one of the top 10 films of 2015.",
-                thumbnail: InsideOutPic
-            },
-            {
-                id: '3',
-                src: LucaSrc,
-                title: "Luca 2021 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. The film received generally positive reviews from critics, with praise for its visuals, voice acting, and nostalgic feel.",
-                thumbnail: LucaPic
-            },
-            {
-                id: '4',
-                src: CocoSrc,
-                type: "video/mp4",
-                title: "Coco 2017 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. The film was praised for its animation, voice acting, music, visuals, emotional story, and respect for Mexican culture.",
-                thumbnail: CocoPic
-            },
-            {
-                id: '5',
-                src: UpSrc,
-                title: "Up 2009 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Up as one of the top 10 films of 2009.",
-                thumbnail: UpPic
-            }
-        ];
+        this.videoList = [];
 
         this.timerSubject = new Subject();
 
@@ -112,15 +65,13 @@ class PlayerService {
 
     getCurrentVideoStates(state) {
         let currentVideo = this.getCurrentVideo();
+        if (!currentVideo) {
+            return;
+        }
         this.getVideoStatesById(currentVideo.id, state);
     }
 
     getVideoList() {
-        if (!this.videoList) {
-            console.log("videoList is empty.");
-            return;
-        }
-
         return this.videoList;
     }
 
@@ -142,6 +93,19 @@ class PlayerService {
     }
 
     //setters
+    setVideoList(videoList) {
+        if (videoList.length === 0) {
+            console.log('videoList is empty as argument in setVideoList in PlayerService.');
+            return;
+        }
+
+        this.videoList = videoList;
+
+        this.actionSubject.notify({
+            action: 'SET_VIDEOLIST'
+        });
+    }
+
     setVideoStates(id, state) {
         for (let key in state) {
             this.videosStates[id][key] = state[key];
@@ -157,7 +121,7 @@ class PlayerService {
     //private methods
     loadVideo(id) {
         if (!this.videoEl) {
-            console.log("videoEl doesn't exist.");
+            console.log("videoEl doesn't exist (loadVideo in PlayerService).");
             return;
         }
 
@@ -171,7 +135,7 @@ class PlayerService {
         this.videoEl.poster = videoObj.thumbnail;
 
         this.videoEl.onloadeddata = () => {
-            this.videoEl.currentTime = 130;
+            //this.videoEl.currentTime = 130;
             this.videoEl.play();
             this.setVideoStates(id, { isPlaying: true })
 
@@ -188,11 +152,12 @@ class PlayerService {
         this.loadVideo(currentVideo.id);
     }
 
-    registerVideoElement(videoEl) {
+    registerVideoEl(videoEl) {
         if (!videoEl) {
-            console.log("videoEl doesn't exist.");
+            console.log("videoEl doesn't exist as argument in registerVideoEl in playerService.");
             return;
         }
+
         this.videoEl = videoEl;
 
         videoEl.ontimeupdate = e => {
@@ -220,8 +185,6 @@ class PlayerService {
                 video: this.currentVideo,
                 action: 'END'
             });
-
-
         }
     }
 
@@ -329,6 +292,24 @@ class PlayerService {
             myList.splice(index, 1);
         }
         return suggestions;
+    }
+
+    setCurrentTime(difRate) {
+        let videoDur = this.videoEl.duration;
+
+        let newCurrentTime = difRate * videoDur;
+        console.log(newCurrentTime)
+
+        this.videoEl.currentTime = newCurrentTime;
+
+        this.timerSubject.notify({
+            video: this.currentVideo,
+            time: {
+                current: newCurrentTime,
+                duration: videoDur,
+                progress: newCurrentTime / videoDur * 100
+            }
+        });
     }
 }
 

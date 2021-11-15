@@ -8,11 +8,15 @@ class Mute extends Component {
     constructor() {
         super()
         this.state = {
-            isMute: player.getVolumeStates('isMute')
+            isMute: null
         }
 
         this.observer = e => {
             switch(e.action) {
+                case 'SET_VIDEOLIST':
+                    this.setState({ isMute: player.getVolumeStates('isMute') })
+                    break;
+
                 case 'MUTE':
                     this.setState({isMute: true});
                     break;

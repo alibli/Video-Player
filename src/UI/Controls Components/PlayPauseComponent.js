@@ -8,11 +8,15 @@ class PlayVideo extends Component {
     constructor() {
         super()
         this.state = {
-            isPlaying: player.getCurrentVideoStates('isPlaying')
+            isPlaying: null,
         }
 
         this.observer = e => {
             switch (e.action) {
+                case 'SET_VIDEOLIST':
+                    this.setState({ isPlaying: player.getCurrentVideoStates('isPlaying') })
+                    break;
+                    
                 case 'PLAY':
                     this.setState({ isPlaying: true });
                     break;

@@ -9,17 +9,27 @@ class SuggestListComponent extends Component {
 
         this.state = {
             suggestedList: [],
+            isEnded: player.getCurrentVideoStates('isEnded')
         }
 
         this.observer = e => {
             switch (e.action) {
                 case 'END':
-                    const current = player.getCurrentVideo();
-                    if (current) {
+                    if (e.video) {
                         this.setState({
-                            suggestedList: player.suggestListById(current.id)
+                            suggestedList: player.suggestListById(e.video.id)
                         });
                     }
+
+                    this.setState({
+                        isEnded: true
+                    })
+                    break;
+
+                case 'PLAY':
+                    this.setState({
+                        isEnded: false
+                    })
                     break;
 
                 default:
@@ -44,7 +54,13 @@ class SuggestListComponent extends Component {
 
     render() {
         return (
-            <div className="suggestlist-section">
+            <div
+                className="suggestlist-section"
+                style={{
+                    display: this.state.isEnded
+                        ? 'block'
+                        : 'none'
+                }}>
                 <div className="suggestlist">
                     <div className="suggestlist-title">
                         <h2 >

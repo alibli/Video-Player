@@ -7,12 +7,18 @@ class VideoListComponent extends Component {
     constructor() {
         super();
         this.state = {
-            videoList: player.getVideoList(),
+            videoList: [],
             videosStates: player.getVideosStates(),
-            currentVideo: player.getCurrentVideo()
+            currentVideo: null
         }
 
         this.observer = e => {
+            if (e.action === 'SET_VIDEOLIST') {
+                this.setState({
+                    videoList: player.getVideoList(),
+                    currentVideo: player.getCurrentVideo()
+                })
+            }
             if (e.action === 'PLAY' ||
                 e.action === 'PAUSE') {
                 this.setState({

@@ -1,11 +1,11 @@
 import './App.css';
-import PlayerComponent from './UI/Player Component/PlayerComponent';
+import VideoPlayer from './UI/Player Components/VideoPlayerComponent';
 
 function App() {
   return (
     <>
       <div className="app">
-        <PlayerComponent />
+        <VideoPlayer />
       </div>
     </>
   );

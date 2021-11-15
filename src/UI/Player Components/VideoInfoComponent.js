@@ -6,8 +6,8 @@ class VideoInfoComponent extends Component {
     constructor() {
         super();
         this.state = {
-            title: player.getCurrentVideo().title,
-            description: player.getCurrentVideo().description
+            title: '',
+            description: ''
         };
 
         this.observer = e => {
