@@ -44,7 +44,7 @@ class SuggestListComponent extends Component {
 
     render() {
         return (
-            <div className=".suggestlist-section">
+            <div className="suggestlist-section">
                 <div className="suggestlist">
                     <div className="suggestlist-title">
                         <h2 >
