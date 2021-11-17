@@ -1,6 +1,6 @@
 import './TimeComponent.css';
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 
 class TimeComponent extends Component {
     constructor() {
@@ -10,7 +10,7 @@ class TimeComponent extends Component {
         }
 
         this.observer = e => {
-            this.setState({currentTime: Math.trunc(e.time.current)});
+            this.setState({ currentTime: Math.trunc(e.time.current) });
         }
 
         this.setState = this.setState.bind(this);
@@ -18,11 +18,11 @@ class TimeComponent extends Component {
 
 
     componentDidMount() {
-        player.timerSubject.subscribe(this.observer);
+        playerService.timerSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.timerSubject.unsubscribe(this.observer);
+        playerService.timerSubject.unsubscribe(this.observer);
     }
 
     render() {

@@ -2,7 +2,7 @@ import './MuteUnmuteComponent.css';
 import { Component } from 'react';
 import MuteIcon from '../../assets/icons/Mute.png';
 import UnmuteIcon from '../../assets/icons/Unmute.png';
-import { player } from '../../Service/PlayerService';
+import { playerService} from '../../Service/PlayerService';
 
 class Mute extends Component {
     constructor() {
@@ -12,19 +12,19 @@ class Mute extends Component {
         }
 
         this.observer = e => {
-            switch(e.action) {
+            switch (e.action) {
                 case 'SET_VIDEOLIST':
-                    this.setState({ isMute: player.getVolumeStates('isMute') })
+                    this.setState({ isMute: playerService.getVolumeStates('isMute') })
                     break;
 
                 case 'MUTE':
-                    this.setState({isMute: true});
+                    this.setState({ isMute: true });
                     break;
 
                 case 'UNMUTE':
-                    this.setState({isMute: false});
+                    this.setState({ isMute: false });
                     break;
-                
+
                 default:
                     break;
             }
@@ -34,15 +34,15 @@ class Mute extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
-    
+
     onClickMuteUnmute() {
-        player.muteUnmuteVideo()
+        playerService.muteUnmuteVideo()
     }
 
     render() {

@@ -1,6 +1,6 @@
 import './VideoItemComponent.css';
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 import PlayIcon from '../../assets/icons/Play.png';
 import PauseIcon from '../../assets/icons/Pause.png';
 
@@ -9,7 +9,7 @@ class VideoItemComponent extends Component {
         super(props);
 
         this.state = {
-            playing: player.isPlaying(this.props.video.id)
+            playing: playerService.getIsPlayingStateById(this.props.video.id)
         }
 
 
@@ -20,7 +20,7 @@ class VideoItemComponent extends Component {
                     return;
                 }
                 this.setState({
-                    playing: player.isPlaying(this.props.video.id),
+                    playing: playerService.getIsPlayingStateById(this.props.video.id),
                 });
             } else {
                 return;
@@ -31,15 +31,15 @@ class VideoItemComponent extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     onSelectVideo(id) {
-        player.selectVideo(id);
+        playerService.loadVideo(id);
     }
 
     render() {

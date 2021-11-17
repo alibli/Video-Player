@@ -1,12 +1,12 @@
 import './PlayerContainerComponent.css'
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService  } from '../../Service/PlayerService';
 
 class PlayerContainerComponent extends Component {
 
     componentDidMount() {
-        player.setVideoList(this.props.videoList);
-        player.start();
+        playerService.setVideoList(this.props.videoList);
+        playerService.start();
     }
 
     render() {

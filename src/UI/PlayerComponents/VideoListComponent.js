@@ -1,6 +1,6 @@
 import './VideoListComponent.css';
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 import VideoItemComponent from './VideoItemComponent';
 
 class VideoListComponent extends Component {
@@ -8,21 +8,21 @@ class VideoListComponent extends Component {
         super();
         this.state = {
             videoList: [],
-            videosStates: player.getVideosStates(),
+            videosStates: playerService.getVideosStates(),
             currentVideo: null
         }
 
         this.observer = e => {
             if (e.action === 'SET_VIDEOLIST') {
                 this.setState({
-                    videoList: player.getVideoList(),
-                    currentVideo: player.getCurrentVideo()
+                    videoList: playerService.getVideoList(),
+                    currentVideo: playerService.getCurrentVideo()
                 })
             }
             if (e.action === 'PLAY' ||
                 e.action === 'PAUSE') {
                 this.setState({
-                    videosStates: player.getVideosStates(),
+                    videosStates: playerService.getVideosStates(),
                     currentVideo: e.video
                 });
             } else {
@@ -34,11 +34,11 @@ class VideoListComponent extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     render() {

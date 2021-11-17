@@ -2,7 +2,7 @@ import './PlayPauseComponent.css';
 import { Component } from 'react';
 import PlayIcon from '../../assets/icons/Play.png';
 import PauseIcon from '../../assets/icons/Pause.png';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 
 class PlayVideo extends Component {
     constructor() {
@@ -14,9 +14,9 @@ class PlayVideo extends Component {
         this.observer = e => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
-                    this.setState({ isPlaying: player.getCurrentVideoStates('isPlaying') })
+                    this.setState({ isPlaying: playerService.getCurrentVideoStates('isPlaying') })
                     break;
-                    
+
                 case 'PLAY':
                     this.setState({ isPlaying: true });
                     break;
@@ -34,16 +34,16 @@ class PlayVideo extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
-        
+        playerService.actionSubject.subscribe(this.observer);
+
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     onClickPlayPause() {
-        player.playPauseVideo();
+        playerService.playPauseVideo();
     }
 
     render() {

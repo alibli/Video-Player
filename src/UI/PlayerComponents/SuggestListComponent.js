@@ -1,6 +1,6 @@
 import './SuggestListComponent.css';
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 import VideoItemComponent from './VideoItemComponent';
 
 class SuggestListComponent extends Component {
@@ -9,15 +9,21 @@ class SuggestListComponent extends Component {
 
         this.state = {
             suggestedList: [],
-            isEnded: player.getCurrentVideoStates('isEnded')
+            isEnded: null
         }
 
         this.observer = e => {
             switch (e.action) {
+                case 'SET_VIDEOLIST':
+                    this.setState({
+                        isEnded: playerService.getCurrentVideoStates('isEnded')
+                    });
+                    break;
+                    
                 case 'END':
                     if (e.video) {
                         this.setState({
-                            suggestedList: player.suggestListById(e.video.id)
+                            suggestedList: playerService.suggestListById(2)
                         });
                     }
 
@@ -41,15 +47,15 @@ class SuggestListComponent extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     onSelectVideo(id) {
-        player.selectVideo(id);
+        playerService.selectVideo(id);
     }
 
     render() {

@@ -1,6 +1,6 @@
 import './VideoInfoComponent.css';
 import { Component } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 
 class VideoInfoComponent extends Component {
     constructor() {
@@ -25,11 +25,11 @@ class VideoInfoComponent extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     render() {

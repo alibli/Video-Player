@@ -1,14 +1,15 @@
 import { Component, createRef } from 'react';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 
 class VideoElComponent extends Component {
     constructor() {
         super()
+        
         this.videoRef = createRef();
     }
 
     componentDidMount() {
-        player.registerVideoEl(this.videoRef.current);
+        playerService.registerVideoEl(this.videoRef.current);
     }
 
     render() {

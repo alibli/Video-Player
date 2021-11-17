@@ -2,7 +2,7 @@ import './PreNextComponent.css';
 import { Component } from 'react';
 import PreviousSrc from '../../assets/icons/Previous.png';
 import NextSrc from '../../assets/icons/Next.png';
-import { player } from '../../Service/PlayerService';
+import { playerService } from '../../Service/PlayerService';
 
 class PreviousComponent extends Component {
     constructor() {
@@ -17,8 +17,8 @@ class PreviousComponent extends Component {
             switch (e.action) {
                 case 'PLAY':
                     this.setState({
-                        isFirstVideo: player.isfirstVideo(),
-                        isLastVideo: player.isLastVideo()
+                        isFirstVideo: playerService.isfirstVideo(),
+                        isLastVideo: playerService.isLastVideo()
                     });
                     break;
 
@@ -31,19 +31,19 @@ class PreviousComponent extends Component {
     }
 
     componentDidMount() {
-        player.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.observer);
     }
 
     componentWillUnmount() {
-        player.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.observer);
     }
 
     onClickPreviousVideo() {
-        player.previousVideo();
+        playerService.previousVideo();
     }
 
     onClickNextVideo() {
-        player.nextVideo();
+        playerService.nextVideo();
     }
 
     render() {
