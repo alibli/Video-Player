@@ -6,7 +6,7 @@ import TimeComponent from '../ControlsComponents/TimeComponent';
 import MuteUnmuteComponent from '../ControlsComponents/MuteUnmuteComponent';
 import ProgressbarComponent from '../ControlsComponents/ProgressbarComponent';
 import VideoInfoComponent from './VideoInfoComponent';
-import VideoElComponent from '../ControlsComponents/VideoElComponent';
+import VideoElComponent from './VideoElComponent';
 import VideoListComponent from './VideoListComponent';
 import SuggestListComponent from './SuggestListComponent';
 import PlayerContainerComponent from './PlayerContainerComponent';
@@ -29,50 +29,54 @@ class VideoPlayer extends Component {
 
         this.videoRef = createRef();
 
-        this.videoList = [
-            {
-                id: 1,
-                src: SoulSrc,
-                title: "Soul 2020 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named the film as one of the top 10 films of 2020.",
-                thumbnail: SoulPic
-            },
-            {
-                id: 2,
-                src: InsideOutSrc,
-                title: "Inside Out 2015 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Inside Out as one of the top 10 films of 2015.",
-                thumbnail: InsideOutPic
-            },
-            {
-                id: 3,
-                src: LucaSrc,
-                title: "Luca 2021 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. The film received generally positive reviews from critics, with praise for its visuals, voice acting, and nostalgic feel.",
-                thumbnail: LucaPic
-            },
-            {
-                id: 4,
-                src: CocoSrc,
-                type: "video/mp4",
-                title: "Coco 2017 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. The film was praised for its animation, voice acting, music, visuals, emotional story, and respect for Mexican culture.",
-                thumbnail: CocoPic
-            },
-            {
-                id: 5,
-                src: UpSrc,
-                title: "Up 2009 Offical Trailer",
-                description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Up as one of the top 10 films of 2009.",
-                thumbnail: UpPic
-            }
-        ]
+        this.state = {
+            videoList: [
+                {
+                    id: 1,
+                    src: SoulSrc,
+                    title: "Soul 2020 Offical Trailer",
+                    description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named the film as one of the top 10 films of 2020.",
+                    thumbnail: SoulPic
+                },
+                {
+                    id: 2,
+                    src: InsideOutSrc,
+                    title: "Inside Out 2015 Offical Trailer",
+                    description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Inside Out as one of the top 10 films of 2015.",
+                    thumbnail: InsideOutPic
+                },
+                {
+                    id: 3,
+                    src: LucaSrc,
+                    title: "Luca 2021 Offical Trailer",
+                    description: "Produced by Pixar Animation Studios. The film received generally positive reviews from critics, with praise for its visuals, voice acting, and nostalgic feel.",
+                    thumbnail: LucaPic
+                },
+                {
+                    id: 4,
+                    src: CocoSrc,
+                    type: "video/mp4",
+                    title: "Coco 2017 Offical Trailer",
+                    description: "Produced by Pixar Animation Studios. The film was praised for its animation, voice acting, music, visuals, emotional story, and respect for Mexican culture.",
+                    thumbnail: CocoPic
+                },
+                {
+                    id: 5,
+                    src: UpSrc,
+                    title: "Up 2009 Offical Trailer",
+                    description: "Produced by Pixar Animation Studios. Organizations like the National Board of Review and American Film Institute named Up as one of the top 10 films of 2009.",
+                    thumbnail: UpPic
+                }
+            ]
+
+        }
+
     }
 
     render() {
         return (
             <PlayerContainerComponent
-                videoList={this.videoList}>
+                videoList={this.state.videoList}>
 
                 <div className="player">
 

@@ -10,36 +10,29 @@ class ProgressbarComponent extends Component {
 
         }
 
-        this.observer = e => {
+        this.timeObserver = e => {
             this.setState({ currentProgress: e.time.progress })
         }
 
         // this.dragButtonMoving = false;
 
         this.progressbarRef = createRef();
-
-        this.progressbarHandler = this.progressbarHandler.bind(this);
-
+        
         this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
-        playerService.timerSubject.subscribe(this.observer);
+        playerService.timerSubject.subscribe(this.timeObserver);
     }
 
     componentWillUnmount() {
         playerService.timerSubject.unsubscribe(this.observer);
     }
 
-    progressbarHandler(e) {
+    progressbarHandler = (e) => {
         const progressbar = this.progressbarRef.current;
         let progressbarSize = progressbar.getBoundingClientRect();
         this.difRate = (e.clientX - progressbarSize.left) / progressbarSize.width
-        console.log({
-            left:progressbarSize.left,
-            width:progressbarSize.width
-        })
-        console.log(this.difRate)
         playerService.setCurrentTime(this.difRate)
     }
 
@@ -60,7 +53,6 @@ class ProgressbarComponent extends Component {
         //         this.dragButtonMoving = false;
         //         player.setCurrentTime(this.difRate)
         // })
-
 
         return (
             <div

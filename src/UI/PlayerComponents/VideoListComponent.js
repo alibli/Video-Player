@@ -8,25 +8,37 @@ class VideoListComponent extends Component {
         super();
         this.state = {
             videoList: [],
-            videosStates: playerService.getVideosStates(),
+            videosStates: {},
             currentVideo: null
         }
 
-        this.observer = e => {
-            if (e.action === 'SET_VIDEOLIST') {
-                this.setState({
-                    videoList: playerService.getVideoList(),
-                    currentVideo: playerService.getCurrentVideo()
-                })
+        this.loadObserver = e => {
+            switch (e.action) {
+                case 'SET_VIDEOLIST':
+                    this.setState({
+                        videoList: playerService.getVideoList(),
+                        videosStates: playerService.getVideosStates(),
+                        currentVideo: playerService.getCurrentVideo()
+                    });
+                    break;
+
+                default:
+                    break;
             }
-            if (e.action === 'PLAY' ||
-                e.action === 'PAUSE') {
-                this.setState({
-                    videosStates: playerService.getVideosStates(),
-                    currentVideo: e.video
-                });
-            } else {
-                return;
+        }
+
+        this.actionObserver = e => {
+            switch (e.action) {
+                case 'PLAY':
+                case 'PAUSE':
+                    this.setState({
+                        videosStates: playerService.getVideosStates(),
+                        currentVideo: e.video
+                    });
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -34,11 +46,13 @@ class VideoListComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     render() {

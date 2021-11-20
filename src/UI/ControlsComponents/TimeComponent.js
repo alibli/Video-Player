@@ -9,7 +9,7 @@ class TimeComponent extends Component {
             currentTime: 0
         }
 
-        this.observer = e => {
+        this.timeObserver = e => {
             this.setState({ currentTime: Math.trunc(e.time.current) });
         }
 
@@ -18,11 +18,11 @@ class TimeComponent extends Component {
 
 
     componentDidMount() {
-        playerService.timerSubject.subscribe(this.observer);
+        playerService.timerSubject.subscribe(this.timeObserver);
     }
 
     componentWillUnmount() {
-        playerService.timerSubject.unsubscribe(this.observer);
+        playerService.timerSubject.unsubscribe(this.timeObserver);
     }
 
     render() {

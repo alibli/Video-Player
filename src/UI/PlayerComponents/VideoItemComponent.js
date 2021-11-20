@@ -12,18 +12,20 @@ class VideoItemComponent extends Component {
             playing: playerService.getIsPlayingStateById(this.props.video.id)
         }
 
+        this.actionObserver = e => {
+            switch (e.action) {
+                case 'PLAY':
+                case 'PAUSE':
+                    if (e.video.id !== this.props.video.id && !this.state.playing) {
+                        return;
+                    }
+                    this.setState({
+                        playing: playerService.getIsPlayingStateById(this.props.video.id),
+                    });
+                    break;
 
-        this.observer = e => {
-            if (e.action === 'PLAY' ||
-                e.action === 'PAUSE') {
-                if (e.video.id !== this.props.video.id && !this.state.playing) {
-                    return;
-                }
-                this.setState({
-                    playing: playerService.getIsPlayingStateById(this.props.video.id),
-                });
-            } else {
-                return;
+                default:
+                    break;
             }
         }
 
@@ -31,15 +33,15 @@ class VideoItemComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     onSelectVideo(id) {
-        playerService.loadVideo(id);
+        playerService.selectVideo(id);
     }
 
     render() {

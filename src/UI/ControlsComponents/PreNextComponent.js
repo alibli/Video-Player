@@ -13,7 +13,7 @@ class PreviousComponent extends Component {
             isLastVideo: null
         }
 
-        this.observer = e => {
+        this.actionObserver = e => {
             switch (e.action) {
                 case 'PLAY':
                     this.setState({
@@ -31,11 +31,11 @@ class PreviousComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     onClickPreviousVideo() {
@@ -72,7 +72,6 @@ class PreviousComponent extends Component {
                     }
                 </button>
             </div>
-
         );
     }
 

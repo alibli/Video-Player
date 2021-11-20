@@ -12,7 +12,7 @@ class SuggestListComponent extends Component {
             isEnded: null
         }
 
-        this.observer = e => {
+        this.loadObserver = e => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
                     this.setState({
@@ -20,6 +20,13 @@ class SuggestListComponent extends Component {
                     });
                     break;
                     
+                default:
+                    break;
+            }
+        }
+
+        this.actionObserver = e => {
+            switch (e.action) {
                 case 'END':
                     if (e.video) {
                         this.setState({
@@ -47,11 +54,13 @@ class SuggestListComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     onSelectVideo(id) {

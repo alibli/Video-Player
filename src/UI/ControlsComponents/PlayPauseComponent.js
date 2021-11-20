@@ -6,23 +6,31 @@ import { playerService } from '../../Service/PlayerService';
 
 class PlayVideo extends Component {
     constructor() {
-        super()
+        super();
+
         this.state = {
             isPlaying: null,
         }
 
-        this.observer = e => {
+        this.loadObserver = e => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
-                    this.setState({ isPlaying: playerService.getCurrentVideoStates('isPlaying') })
+                    this.setState({ isPlaying: playerService.getCurrentVideoStates('isPlaying') });
                     break;
 
+                default:
+                    break;
+            }
+        };
+
+        this.actionObserver = e => {
+            switch (e.action) {
                 case 'PLAY':
                     this.setState({ isPlaying: true });
                     break;
 
                 case 'PAUSE':
-                    this.setState({ isPlaying: false })
+                    this.setState({ isPlaying: false });
                     break;
 
                 default:
@@ -34,12 +42,14 @@ class PlayVideo extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.actionSubject.subscribe(this.actionObserver);
 
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     onClickPlayPause() {

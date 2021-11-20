@@ -10,14 +10,18 @@ class VideoInfoComponent extends Component {
             description: ''
         };
 
-        this.observer = e => {
-            if (e.action === 'PLAY' || e.action === 'PAUSE') {
-                this.setState({
-                    title: e.video.title,
-                    description: e.video.description
-                });
-            } else {
-                return;
+        this.actionObserver = e => {
+            switch(e.action) {
+                case 'PLAY':
+                case 'PAUSE':
+                    this.setState({
+                        title: e.video.title,
+                        description: e.video.description
+                    });
+                    break;
+
+                default:
+                    break;
             }
         }
 
@@ -25,11 +29,11 @@ class VideoInfoComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     render() {

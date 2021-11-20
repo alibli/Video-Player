@@ -6,17 +6,25 @@ import { playerService} from '../../Service/PlayerService';
 
 class Mute extends Component {
     constructor() {
-        super()
+        super();
+        
         this.state = {
             isMute: null
         }
 
-        this.observer = e => {
+        this.loadObserver = e => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
-                    this.setState({ isMute: playerService.getVolumeStates('isMute') })
+                    this.setState({ isMute: playerService.getVolumeStates('isMute') });
                     break;
 
+                default:
+                    break;
+            }
+        };
+
+        this.actionObserver = e => {
+            switch (e.action) {
                 case 'MUTE':
                     this.setState({ isMute: true });
                     break;
@@ -34,15 +42,18 @@ class Mute extends Component {
     }
 
     componentDidMount() {
-        playerService.actionSubject.subscribe(this.observer);
+        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.actionSubject.subscribe(this.actionObserver);
+        
     }
 
     componentWillUnmount() {
-        playerService.actionSubject.unsubscribe(this.observer);
+        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
     onClickMuteUnmute() {
-        playerService.muteUnmuteVideo()
+        playerService.muteUnmuteVideo();
     }
 
     render() {
