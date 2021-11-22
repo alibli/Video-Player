@@ -19,7 +19,7 @@ class SuggestListComponent extends Component {
                         isEnded: playerService.getCurrentVideoStates('isEnded')
                     });
                     break;
-                    
+
                 default:
                     break;
             }
@@ -54,12 +54,12 @@ class SuggestListComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.listLoadSubject.subscribe(this.loadObserver);
         playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.listLoadSubject.unsubscribe(this.loadObserver);
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
@@ -82,12 +82,18 @@ class SuggestListComponent extends Component {
                             Suggestions
                         </h2>
                     </div>
-                    <div>
+                    <div className="suggestlist-videos">
                         {this.state.suggestedList.map((video, index) => {
                             return (
-                                <VideoItemComponent
-                                    key={index}
-                                    video={video} />
+                                <div 
+                                key={index}
+                                className="suggestlist-video-item">
+                                    <VideoItemComponent
+                                        video={video} />
+                                    <h3 className="suggestlist-video-title">
+                                        {video.title}
+                                    </h3>
+                                </div>
                             );
                         })}
                     </div>

@@ -8,7 +8,7 @@ class PlayerService {
 
         this.volumeStates = {
             isMute: true,
-            volumeValue: 50
+            volume: 0
         };
 
         this.videosStates = {};
@@ -19,7 +19,7 @@ class PlayerService {
 
         this.actionSubject = new Subject();
 
-        this.loadSubject = new Subject();
+        this.listLoadSubject = new Subject();
     }
 
     //public getters
@@ -62,7 +62,7 @@ class PlayerService {
         this.videoList = videoList;
         this.initialVideosStates();
 
-        this.loadSubject.notify({
+        this.listLoadSubject.notify({
             action: 'SET_VIDEOLIST'
         });
     }
@@ -101,6 +101,14 @@ class PlayerService {
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'END'
+            });
+        }
+
+        videoEl.onvolumechange = e => {
+            this.setVolumeStates('volume', e.target.value)
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'VOLUME_CHANGE'
             });
         }
     }
@@ -160,6 +168,16 @@ class PlayerService {
         }
     }
 
+    setVolume(vlm) {
+        if (!this.videoEl) {
+            console.log("videoEl doesn't exist (setVolume in PlayerService).");
+            return;
+        }
+
+        this.videoEl.volume = vlm;
+
+    }
+
     nextVideo() {
         let currentVideo = this.getCurrentVideo();
 
@@ -174,34 +192,26 @@ class PlayerService {
 
     isLastVideo() {
         let currentVideo = this.getCurrentVideo();
-        let videoList = this.getVideoList();
 
-        if (currentVideo.id === videoList[videoList.length - 1].id) {
-
+        if (currentVideo.id === this.videoList[this.videoList.length - 1].id) {
             return true;
         } else {
-
             return false;
         }
     }
 
     isfirstVideo() {
         let currentVideo = this.getCurrentVideo();
-        let videoList = this.getVideoList();
 
-        if (currentVideo.id === videoList[0].id) {
-
+        if (currentVideo.id === this.videoList[0].id) {
             return true;
         } else {
-
             return false;
         }
     }
 
     selectVideo(videoId) {
-        let videoList = this.getVideoList();
-
-        if (!videoList.find(video => video.id === videoId)) {
+        if (!this.videoList.find(video => video.id === videoId)) {
             console.log('There is no video with id of', videoId, 'in video list (selectVideo in PlayerService).');
             return;
         }
@@ -211,8 +221,7 @@ class PlayerService {
 
     suggestListById(peekCount) {
         let currentVideo = this.getCurrentVideo();
-        let videoList = this.getVideoList();
-        var myList = videoList.filter(video => video.id !== currentVideo.id);
+        var myList = this.videoList.filter(video => video.id !== currentVideo.id);
         const suggestions = [];
 
         for (let i = 0; i < peekCount; i++) {
@@ -231,29 +240,32 @@ class PlayerService {
         this.videoEl.currentTime = newCurrentTime;
     }
 
-    //private getters
-    getVideoEl() {
+    forwardVideo() {
         if (!this.videoEl) {
-            console.log('videoEl is empty (getVideoEl in PlayerService');
+            console.log("videoEl doesn't exist (forwardVideo in PlayerService).");
             return;
         }
 
-        return this.videoEl;
+        this.videoEl.currentTime += 10;
     }
 
-    getVideoList() {
-        if (this.videoList.length === 0) {
-            console.log('videoList is empty (getVideoList in PlayerService).');
+    backwardVideo() {
+        if (!this.videoEl) {
+            console.log("videoEl doesn't exist (forwardVideo in PlayerService).");
             return;
         }
 
+        this.videoEl.currentTime -= 10;
+    }
+
+    //private getters
+    getVideoList() {
         return this.videoList;
     }
 
     //private setters
     setCurrentVideoById(videoId) {
-        let videoList = this.getVideoList();
-        let videoObj = videoList.find(video => video.id === videoId);
+        let videoObj = this.videoList.find(video => video.id === videoId);
 
         if (!videoObj) {
             console.log('There is no video with id of', videoId, 'in video list (setCurrentVideoById in PlayerService).');
@@ -275,13 +287,12 @@ class PlayerService {
 
     //private methods
     initialVideosStates() {
-        let vidoeList = this.getVideoList();
         let initialStates = {
             isPlaying: false,
             isEnded: false
         }
 
-        vidoeList.forEach(video => {
+        this.videoList.forEach(video => {
             this.setVideoStatesById(video.id, initialStates)
         })
     }
@@ -292,7 +303,6 @@ class PlayerService {
             return;
         }
 
-        let videoEl = this.getVideoEl();
         let currentVideo = this.getCurrentVideo();
 
         //setting isPlaying false for currentVideo
@@ -302,11 +312,11 @@ class PlayerService {
         let videoObj = this.videoList.find(video => video.id === videoId);
         this.setCurrentVideoById(videoId);
 
-        videoEl.src = videoObj.src;
-        videoEl.poster = videoObj.poster;
+        this.videoEl.src = videoObj.src;
+        this.videoEl.poster = videoObj.poster;
 
-        videoEl.onloadeddata = () => {
-            videoEl.play();
+        this.videoEl.onloadeddata = () => {
+            this.videoEl.play();
 
             this.setVideoStatesById(videoId, { isPlaying: true })
 
@@ -317,7 +327,7 @@ class PlayerService {
         }
     }
 
-    
+
 }
 
 const playerService = new PlayerService();

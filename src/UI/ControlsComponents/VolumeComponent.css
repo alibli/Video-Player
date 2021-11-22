@@ -1,0 +1,13 @@
+.volume-select {
+    height: 25px;
+    width: 50px;
+    outline: none;
+    border: transparent;
+    background-color: transparent;
+    color: white;
+    text-align: center;
+}
+
+.volume-select option{
+    color: black;
+}

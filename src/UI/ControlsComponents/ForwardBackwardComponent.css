@@ -1,0 +1,17 @@
+.forward-backward-sec {
+    margin-left: auto;
+}
+
+.forward-backward-but {
+    background-color: transparent;
+    border: none;
+}
+
+.forward-backward-but:hover {
+    cursor: pointer;
+}
+
+.forward-backward-icon {
+    width: 25px;
+    margin: 5px;
+}

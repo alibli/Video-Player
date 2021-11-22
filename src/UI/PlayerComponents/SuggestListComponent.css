@@ -15,6 +15,24 @@
     color: white;
 }
 
+.suggestlist-videos {
+    display: flex;
+    width: 100%;
+}
+
+.suggestlist-video-item {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.suggestlist-video-title {
+    margin: 10px 0;
+    padding: 0;
+}
+
 .suggestlist-title h2 {
     text-align: center;
 }

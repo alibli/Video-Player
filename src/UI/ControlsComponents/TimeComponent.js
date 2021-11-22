@@ -6,11 +6,14 @@ class TimeComponent extends Component {
     constructor() {
         super()
         this.state = {
-            currentTime: 0
+            currentTime: 0,
+            duration: null
         }
 
         this.timeObserver = e => {
-            this.setState({ currentTime: Math.trunc(e.time.current) });
+            this.setState({ 
+                currentTime: Math.trunc(e.time.current),
+                duration: Math.trunc(e.time.duration) });
         }
 
         this.setState = this.setState.bind(this);
@@ -26,12 +29,12 @@ class TimeComponent extends Component {
     }
 
     render() {
-        const { currentTime } = this.state;
+        const { currentTime, duration } = this.state;
 
         return (
             <div className="current-time">
                 <p>
-                    {currentTime}
+                    {currentTime} / {duration}
                 </p>
             </div>
         );

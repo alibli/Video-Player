@@ -4,7 +4,7 @@ import MuteIcon from '../../assets/icons/Mute.png';
 import UnmuteIcon from '../../assets/icons/Unmute.png';
 import { playerService} from '../../Service/PlayerService';
 
-class Mute extends Component {
+class MuteUnmuteComponent extends Component {
     constructor() {
         super();
         
@@ -42,13 +42,13 @@ class Mute extends Component {
     }
 
     componentDidMount() {
-        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.listLoadSubject.subscribe(this.loadObserver);
         playerService.actionSubject.subscribe(this.actionObserver);
         
     }
 
     componentWillUnmount() {
-        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.listLoadSubject.unsubscribe(this.loadObserver);
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
@@ -73,4 +73,4 @@ class Mute extends Component {
     }
 }
 
-export default Mute;
+export default MuteUnmuteComponent;

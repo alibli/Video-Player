@@ -46,12 +46,12 @@ class VideoListComponent extends Component {
     }
 
     componentDidMount() {
-        playerService.loadSubject.subscribe(this.loadObserver);
+        playerService.listLoadSubject.subscribe(this.loadObserver);
         playerService.actionSubject.subscribe(this.actionObserver);
     }
 
     componentWillUnmount() {
-        playerService.loadSubject.unsubscribe(this.loadObserver);
+        playerService.listLoadSubject.unsubscribe(this.loadObserver);
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
