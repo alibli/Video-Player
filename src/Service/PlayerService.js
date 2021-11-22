@@ -8,7 +8,7 @@ class PlayerService {
 
         this.volumeStates = {
             isMute: true,
-            volume: 0
+            volume: 0.4
         };
 
         this.videosStates = {};
