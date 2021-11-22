@@ -54,11 +54,6 @@ class PlayerService {
 
     //public setters
     setVideoList(videoList) {
-        if (videoList.length === 0) {
-            console.log('videoList is empty as argument in setVideoList in PlayerService.');
-            return;
-        }
-
         this.videoList = videoList;
         this.initialVideosStates();
 
@@ -258,6 +253,14 @@ class PlayerService {
         this.videoEl.currentTime -= 10;
     }
 
+    fullscreenVideo() {
+        if (!this.videoEl) {
+            console.log("videoEl doesn't exist (fullscreenVideo in PlayerService).");
+            return;
+        }
+        
+        this.videoEl.requestFullscreen();
+    }
     //private getters
     getVideoList() {
         return this.videoList;

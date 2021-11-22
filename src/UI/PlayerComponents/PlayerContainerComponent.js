@@ -3,28 +3,19 @@ import { Component } from 'react';
 import { playerService } from '../../Service/PlayerService';
 
 class PlayerContainerComponent extends Component {
-    constructor() {
-        super();
 
-        this.loadObserver = (e) => {
-            switch (e.action) {
-                case 'SET_VIDEOLIST':
-                    playerService.start();
-                    break;
-
-                default:
-                    break;
-            }
+    componentDidMount() {
+        if (this.props.videoList.length !== 0) {
+            playerService.setVideoList(this.props.videoList);
+            playerService.start();
         }
     }
 
-    componentDidMount() {
-        playerService.listLoadSubject.subscribe(this.loadObserver);
-        playerService.setVideoList(this.props.videoList);
-    }
-
     componentDidUpdate() {
-        playerService.setVideoList(this.props.videoList);
+        if (this.props.videoList.length !== 0) {
+            playerService.setVideoList(this.props.videoList);
+            playerService.start();
+        }
     }
 
     componentWillUnmount() {

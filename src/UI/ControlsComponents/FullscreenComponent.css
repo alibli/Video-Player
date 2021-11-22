@@ -1,0 +1,12 @@
+.fullscreen-icon {
+    width: 25px;
+}
+
+#fullscreen-button {
+    background-color: transparent;
+    border: none;
+}
+
+#fullscreen-button:hover {
+    cursor: pointer;
+}

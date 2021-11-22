@@ -1,5 +1,5 @@
-import './ProgressbarComponent.css';
-import { Component, createRef } from 'react';
+import { Component } from 'react';
+import SliderComponent from './SliderComponent';
 import { playerService } from '../../Service/PlayerService';
 
 class ProgressbarComponent extends Component {
@@ -13,9 +13,6 @@ class ProgressbarComponent extends Component {
             this.setState({ currentProgress: e.time.progress })
         }
 
-        this.dragButtonMoving = false;
-
-        this.progressbarRef = createRef();
         
         this.setState = this.setState.bind(this);
     }
@@ -25,51 +22,23 @@ class ProgressbarComponent extends Component {
     }
 
     componentWillUnmount() {
-        playerService.timerSubject.unsubscribe(this.observer);
+        playerService.timerSubject.unsubscribe(this.timeObserver);
     }
 
-    progressbarHandler = (e) => {
-        const progressbar = this.progressbarRef.current;
-        let progressbarSize = progressbar.getBoundingClientRect();
-        this.difRate = (e.clientX - progressbarSize.left) / progressbarSize.width
-        playerService.setCurrentTime(this.difRate)
+    onMoveSlider(rate) {
+        playerService.setCurrentTime(rate);
     }
 
     render() {
         const { currentProgress } = this.state;
 
-        document.addEventListener('mousemove', (e) => {
-            if (this.dragButtonMoving) {
-                this.progressbarHandler(e);
-            }
-        })
-
-        document.addEventListener('mouseup', (e) => {
-                this.dragButtonMoving = false;
-        })
-
         return (
             <div
                 ref={this.progressbarRef}
-                className="progressbar-section"
-                style={{
-                    width: '100%',
-                    height: '20px'
-                }}
-                onMouseDown={(e) => {
-                    this.dragButtonMoving = true;
-                    this.progressbarHandler(e);
-                }}>
-                <div
-                    style={{
-                        backgroundColor: 'white',
-                        display: 'inline-block',
-                        height: '3px',
-                        width: currentProgress + '%'
-                    }}>
-                </div>
-                <div id="drag-button">
-                </div>
+                className="progressbar-section">
+                <SliderComponent
+                current={currentProgress}
+                onMoveSlider={this.onMoveSlider} />
             </div>
         );
     }

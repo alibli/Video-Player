@@ -1,10 +1,10 @@
-.progressbar-section {
+.slider-section {
     width: 100%;
     display: flex;
     align-items: center;
 }
 
-.progressbar-section:hover {
+.slider-section:hover {
     cursor: pointer;
 }
 
@@ -18,9 +18,4 @@
 
 #drag-button:hover {
     cursor: pointer;
-}
-
-.progressbar {
-    display: inline-block;
-    height: 3px;
 }

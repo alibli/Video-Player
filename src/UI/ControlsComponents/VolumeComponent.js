@@ -1,6 +1,7 @@
 import './VolumeComponent.css';
 import { Component } from 'react';
 import { playerService } from '../../Service/PlayerService';
+import SliderComponent from './SliderComponent';
 
 class VolumeComponent extends Component {
     constructor() {
@@ -43,36 +44,19 @@ class VolumeComponent extends Component {
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
-    selectVolume(e) {
+    onMoveSlider(e) {
         playerService.setVolume(e.target.value);
     }
 
     render() {
         const { volume } = this.state;
         return (
-            <select
-                className="volume-select"
-                value={volume}
-                onChange={this.selectVolume}>
-                <option value="0">
-                    0
-                </option>
-                <option value="0.2">
-                    20
-                </option>
-                <option value="0.4">
-                    40
-                </option>
-                <option value="0.6">
-                    60
-                </option>
-                <option value="0.8">
-                    80
-                </option>
-                <option value="1">
-                    100
-                </option>
-            </select>
+            <div className="volume-slider">
+                <SliderComponent
+                    current={volume}
+                    onMoveSlider={this.onMoveSlider} />
+            </div>
+
         );
     }
 }

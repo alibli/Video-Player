@@ -57,7 +57,7 @@ class VideoItemComponent extends Component {
                 }}
                 className="videoitem-button"
                 onClick={() => { this.onSelectVideo(video.id) }}>
-                <h4 className="vidoelist-title">
+                <h4 className="videoitem-title">
                     {video.title}
                 </h4>
                 <div className="videoitem-main">
