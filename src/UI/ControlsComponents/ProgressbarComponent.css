@@ -8,7 +8,7 @@
     cursor: pointer;
 }
 
-/* #drag-button {
+#drag-button {
     width: 10px;
     height: 10px;
     border-radius: 50%;
@@ -18,7 +18,7 @@
 
 #drag-button:hover {
     cursor: pointer;
-} */
+}
 
 .progressbar {
     display: inline-block;

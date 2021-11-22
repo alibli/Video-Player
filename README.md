@@ -1,2 +1,1 @@
-# Video-Player
-template for playing some videos !
+# React-Video-Player

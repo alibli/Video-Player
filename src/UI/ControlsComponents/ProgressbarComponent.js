@@ -13,7 +13,7 @@ class ProgressbarComponent extends Component {
             this.setState({ currentProgress: e.time.progress })
         }
 
-        // this.dragButtonMoving = false;
+        this.dragButtonMoving = false;
 
         this.progressbarRef = createRef();
         
@@ -38,20 +38,15 @@ class ProgressbarComponent extends Component {
     render() {
         const { currentProgress } = this.state;
 
-        // document.addEventListener('mousemove', (e) => {
-        //     if (this.dragButtonMoving) {
-        //         let dif = e.clientX - this.dragButtonStart;
-        //         let progressbarSize = this.progressbarRef.current.getBoundingClientRect();
-        //         this.difRate = dif / progressbarSize.width
+        document.addEventListener('mousemove', (e) => {
+            if (this.dragButtonMoving) {
+                this.progressbarHandler(e);
+            }
+        })
 
-        //         this.dragButtonRef.current.style.left = dif + 'px'
-        //     }
-        // })
-
-        // document.addEventListener('mouseup', (e) => {
-        //         this.dragButtonMoving = false;
-        //         player.setCurrentTime(this.difRate)
-        // })
+        document.addEventListener('mouseup', (e) => {
+                this.dragButtonMoving = false;
+        })
 
         return (
             <div
@@ -61,7 +56,10 @@ class ProgressbarComponent extends Component {
                     width: '100%',
                     height: '20px'
                 }}
-                onMouseDown={this.progressbarHandler}>
+                onMouseDown={(e) => {
+                    this.dragButtonMoving = true;
+                    this.progressbarHandler(e);
+                }}>
                 <div
                     style={{
                         backgroundColor: 'white',
@@ -70,10 +68,8 @@ class ProgressbarComponent extends Component {
                         width: currentProgress + '%'
                     }}>
                 </div>
-                {/* <div
-                    id="drag-button"
-                >
-                </div> */}
+                <div id="drag-button">
+                </div>
             </div>
         );
     }
