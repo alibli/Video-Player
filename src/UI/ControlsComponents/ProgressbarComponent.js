@@ -7,7 +7,6 @@ class ProgressbarComponent extends Component {
         super()
         this.state = {
             currentProgress: 0,
-
         }
 
         this.timeObserver = e => {
