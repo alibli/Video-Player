@@ -1,6 +1,7 @@
 #mute-unmute {
     background-color: transparent;
     border: none;
+    padding: 5px;
 }
 
 #mute-unmute:hover {
@@ -8,5 +9,5 @@
 }
 
 .mute-unmute {
-    width: 25px;
+    width: 40px;
 }

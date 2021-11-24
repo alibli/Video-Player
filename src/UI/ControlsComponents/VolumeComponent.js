@@ -7,12 +7,15 @@ class VolumeComponent extends Component {
     constructor() {
         super();
 
-        this.state = {}
+        this.state = {
+            volumeProgress: 0
+        };
 
         this.loadObserver = (e) => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
-                    this.setState({ volume: playerService.getVolumeStates('volume') });
+                    let newVolume = playerService.getVolumeStates('volume');
+                    this.setState({ volumeProgress: newVolume * 100 });
                     break;
 
                 default:
@@ -23,7 +26,8 @@ class VolumeComponent extends Component {
         this.actionObserver = (e) => {
             switch (e.action) {
                 case 'VOLUME_CHANGE':
-                    this.setState({ volume: e.video.volume });
+                    let newVolume = playerService.getVolumeStates('volume');
+                    this.setState({ volumeProgress: newVolume * 100 });
                     break;
 
                 default:
@@ -44,16 +48,20 @@ class VolumeComponent extends Component {
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
-    onMoveSlider(e) {
-        playerService.setVolume(e.target.value);
+    onMoveSlider(value) {
+        if (value >= 0 && value <= 1) {
+            playerService.setVolume(value);
+        } else {
+            return;
+        }
     }
 
     render() {
-        const { volume } = this.state;
+        const { volumeProgress } = this.state;
         return (
             <div className="volume-slider">
                 <SliderComponent
-                    current={volume}
+                    currentProgress={volumeProgress}
                     onMoveSlider={this.onMoveSlider} />
             </div>
 

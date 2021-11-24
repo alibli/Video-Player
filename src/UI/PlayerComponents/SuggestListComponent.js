@@ -78,9 +78,9 @@ class SuggestListComponent extends Component {
                 }}>
                 <div className="suggestlist">
                     <div className="suggestlist-title">
-                        <h2 >
+                        <h1 >
                             Suggestions
-                        </h2>
+                        </h1>
                     </div>
                     <div className="suggestlist-videos">
                         {this.state.suggestedList.map((video, index) => {
@@ -90,9 +90,9 @@ class SuggestListComponent extends Component {
                                 className="suggestlist-video-item">
                                     <VideoItemComponent
                                         video={video} />
-                                    <h3 className="suggestlist-video-title">
+                                    <h2 className="suggestlist-video-title">
                                         {video.title}
-                                    </h3>
+                                    </h2>
                                 </div>
                             );
                         })}

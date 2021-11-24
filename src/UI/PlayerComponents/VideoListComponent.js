@@ -59,9 +59,9 @@ class VideoListComponent extends Component {
         return (
             <div className="videolist">
                 <div className="videolist-title">
-                    <h2>
+                    <h1>
                         Play List
-                    </h2>
+                    </h1>
                 </div>
                 <div className="videolist-items">
                     {this.state.videoList.map((video, index) => {

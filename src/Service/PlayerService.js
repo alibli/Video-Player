@@ -8,7 +8,7 @@ class PlayerService {
 
         this.volumeStates = {
             isMute: true,
-            volume: 0.4
+            volume: 0.5
         };
 
         this.videosStates = {};
@@ -100,11 +100,38 @@ class PlayerService {
         }
 
         videoEl.onvolumechange = e => {
-            this.setVolumeStates('volume', e.target.value)
+            const isMute = this.getVolumeStates('isMute');
+            const newMuteState = e.target.muted;
+            const newVolume = e.target.volume;
+
+            if ((isMute && !newMuteState) ||
+                (isMute && newVolume > 0)) {
+
+                this.videoEl.muted = false;
+                this.setVolumeStates({ isMute: false });
+                this.actionSubject.notify({
+                    video: this.currentVideo,
+                    action: 'UNMUTE'
+                });
+
+            } else if ((!isMute && newMuteState) ||
+                (!isMute && newVolume === 0)) {
+
+                this.setVolumeStates({ isMute: true });
+                this.actionSubject.notify({
+                    video: this.currentVideo,
+                    action: 'MUTE'
+                });
+
+            }
+
+            this.setVolumeStates({ volume: newVolume });
             this.actionSubject.notify({
                 video: this.currentVideo,
                 action: 'VOLUME_CHANGE'
             });
+
+
         }
     }
 
@@ -143,23 +170,9 @@ class PlayerService {
         const isMute = this.getVolumeStates('isMute');
 
         if (isMute) {
-
             this.videoEl.muted = false;
-            this.setVolumeStates({ isMute: false });
-            this.actionSubject.notify({
-                video: this.currentVideo,
-                action: 'UNMUTE'
-            });
-
         } else if (!isMute) {
-
             this.videoEl.muted = true;
-            this.setVolumeStates({ isMute: true });
-            this.actionSubject.notify({
-                video: this.currentVideo,
-                action: 'MUTE'
-            });
-
         }
     }
 
@@ -170,7 +183,6 @@ class PlayerService {
         }
 
         this.videoEl.volume = vlm;
-
     }
 
     nextVideo() {
@@ -258,7 +270,7 @@ class PlayerService {
             console.log("videoEl doesn't exist (fullscreenVideo in PlayerService).");
             return;
         }
-        
+
         this.videoEl.requestFullscreen();
     }
     //private getters

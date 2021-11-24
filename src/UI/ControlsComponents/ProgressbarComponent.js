@@ -6,14 +6,14 @@ class ProgressbarComponent extends Component {
     constructor() {
         super()
         this.state = {
-            currentProgress: 0,
+            timeProgress: 0,
         }
 
         this.timeObserver = e => {
-            this.setState({ currentProgress: e.time.progress })
+            this.setState({ timeProgress: e.time.progress })
         }
 
-        
+
         this.setState = this.setState.bind(this);
     }
 
@@ -30,15 +30,15 @@ class ProgressbarComponent extends Component {
     }
 
     render() {
-        const { currentProgress } = this.state;
+        const { timeProgress} = this.state;
 
         return (
             <div
                 ref={this.progressbarRef}
                 className="progressbar-section">
                 <SliderComponent
-                current={currentProgress}
-                onMoveSlider={this.onMoveSlider} />
+                    currentProgress={timeProgress}
+                    onMoveSlider={this.onMoveSlider} />
             </div>
         );
     }

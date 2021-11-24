@@ -1,43 +1,55 @@
 import './SliderComponent.css';
 import { Component, createRef } from 'react';
-import { playerService } from '../../Service/PlayerService';
 
 class SliderComponent extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            currentProgress: 0,
+            currentPosition: 0
         }
 
         this.dragButtonMoving = false;
 
         this.sliderRef = createRef();
-        
+
+        this.dragButtonRef = createRef();
+
         this.setState = this.setState.bind(this);
     }
 
-    componentDidMount() {
-        document.addEventListener('mousemove', (e) => {
-            if (this.dragButtonMoving) {
-                this.sliderHandler(e);
-            }
-        })
+    mouseMoveHandler = (e) => {
+        if (this.dragButtonMoving) {
+            this.sliderHandler(e);
+        }
+    }
 
-        document.addEventListener('mouseup', (e) => {
-                this.dragButtonMoving = false;
-        })
+    mouseUpHandler = (e) => {
+        this.dragButtonMoving = false;
+        this.props.onMoveSlider(this.state.currentPosition);
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousemove', this.mouseMoveHandler);
+        document.addEventListener('mouseup', this.mouseUpHandler);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousemove', this.mouseMoveHandler);
+        document.removeEventListener('mousemove', this.mouseUpHandler);
     }
 
     sliderHandler = (e) => {
-        const slider = this.sliderRef.current;
-        let sliderSize = slider.getBoundingClientRect();
-        this.difRate = (e.clientX - sliderSize.left) / sliderSize.width;
-        this.props.onMoveSlider(this.difRate);
+        const dragButtonSize = this.dragButtonRef.current.getBoundingClientRect();
+        const sliderSize = this.sliderRef.current.getBoundingClientRect();
+
+        const mousePos = Math.min( Math.max(e.clientX, sliderSize.left) - sliderSize.left, sliderSize.width - dragButtonSize.width);
+
+        this.setState({ currentPosition: (mousePos / (sliderSize.width - dragButtonSize.width)) * 100 });
     }
 
     render() {
-        const { current } = this.props;
+        const pos = this.dragButtonMoving ? this.state.currentPosition : this.props.currentProgress;
 
         return (
             <div
@@ -56,10 +68,12 @@ class SliderComponent extends Component {
                         backgroundColor: 'white',
                         display: 'inline-block',
                         height: '3px',
-                        width: current + '%'
+                        width: pos + '%'
                     }}>
                 </div>
-                <div id="drag-button">
+                <div
+                    ref={this.dragButtonRef}
+                    id="drag-button">
                 </div>
             </div>
         );
