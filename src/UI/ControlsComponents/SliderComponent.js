@@ -25,8 +25,10 @@ class SliderComponent extends Component {
     }
 
     mouseUpHandler = (e) => {
-        this.dragButtonMoving = false;
-        this.props.onMoveSlider(this.state.currentPosition);
+        if (this.dragButtonMoving) {
+            this.dragButtonMoving = false;
+            this.props.onMoveSlider(this.state.currentPosition);
+        }
     }
 
     componentDidMount() {
@@ -36,16 +38,17 @@ class SliderComponent extends Component {
 
     componentWillUnmount() {
         document.removeEventListener('mousemove', this.mouseMoveHandler);
-        document.removeEventListener('mousemove', this.mouseUpHandler);
+        document.removeEventListener('mouseup', this.mouseUpHandler);
     }
 
     sliderHandler = (e) => {
         const dragButtonSize = this.dragButtonRef.current.getBoundingClientRect();
         const sliderSize = this.sliderRef.current.getBoundingClientRect();
 
-        const mousePos = Math.min( Math.max(e.clientX, sliderSize.left) - sliderSize.left, sliderSize.width - dragButtonSize.width);
-
+        const mousePos = Math.min(Math.max(e.clientX, sliderSize.left) - sliderSize.left, sliderSize.width - dragButtonSize.width);
+ 
         this.setState({ currentPosition: (mousePos / (sliderSize.width - dragButtonSize.width)) * 100 });
+        this.props.onMoveSlider(this.state.currentPosition)
     }
 
     render() {

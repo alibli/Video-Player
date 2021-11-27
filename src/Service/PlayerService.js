@@ -176,13 +176,13 @@ class PlayerService {
         }
     }
 
-    setVolume(vlm) {
+    setVolume(vlmPercent) {
         if (!this.videoEl) {
             console.log("videoEl doesn't exist (setVolume in PlayerService).");
             return;
         }
 
-        this.videoEl.volume = vlm;
+        this.videoEl.volume = vlmPercent / 100;
     }
 
     nextVideo() {
@@ -240,10 +240,10 @@ class PlayerService {
         return suggestions;
     }
 
-    setCurrentTime(difRate) {
+    setCurrentTime(timePercent) {
         let videoDur = this.videoEl.duration;
 
-        let newCurrentTime = difRate * videoDur;
+        let newCurrentTime = timePercent / 100 * videoDur;
         this.videoEl.currentTime = newCurrentTime;
     }
 

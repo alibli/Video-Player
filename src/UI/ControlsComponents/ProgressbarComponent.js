@@ -25,8 +25,8 @@ class ProgressbarComponent extends Component {
         playerService.timerSubject.unsubscribe(this.timeObserver);
     }
 
-    onMoveSlider(rate) {
-        playerService.setCurrentTime(rate);
+    onMoveSlider(timePercent) {
+        playerService.setCurrentTime(timePercent);
     }
 
     render() {

@@ -48,12 +48,8 @@ class VolumeComponent extends Component {
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
-    onMoveSlider(value) {
-        if (value >= 0 && value <= 1) {
-            playerService.setVolume(value);
-        } else {
-            return;
-        }
+    onMoveSlider(vlmPercent) {
+        playerService.setVolume(vlmPercent);
     }
 
     render() {
