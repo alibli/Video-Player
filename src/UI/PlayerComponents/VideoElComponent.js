@@ -17,7 +17,7 @@ class VideoElComponent extends Component {
             <video
                 autoPlay
                 muted
-                ref={this.videoRef}>
+                ref={this.videoRef} >
             </video>
         );
     }

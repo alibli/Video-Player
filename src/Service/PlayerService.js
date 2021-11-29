@@ -8,7 +8,7 @@ class PlayerService {
 
         this.volumeStates = {
             isMute: true,
-            volume: 0.5
+            volume: 0
         };
 
         this.videosStates = {};
@@ -41,6 +41,7 @@ class PlayerService {
 
     getVideoStatesById(id, state) {
         return this.videosStates[id][state];
+
     }
 
     getCurrentVideoStates(state) {
@@ -155,14 +156,11 @@ class PlayerService {
         } else if (!isPlaying) {
 
             this.videoEl.play();
-            if (!this.videoEl.paused) {
-                this.setVideoStatesById(this.currentVideo.id, { isPlaying: true });
-                this.actionSubject.notify({
-                    video: this.currentVideo,
-                    action: 'PLAY'
-                });
-            }
-
+            this.setVideoStatesById(this.currentVideo.id, { isPlaying: true });
+            this.actionSubject.notify({
+                video: this.currentVideo,
+                action: 'PLAY'
+            });
         }
     }
 
@@ -265,14 +263,6 @@ class PlayerService {
         this.videoEl.currentTime -= 10;
     }
 
-    fullscreenVideo() {
-        if (!this.videoEl) {
-            console.log("videoEl doesn't exist (fullscreenVideo in PlayerService).");
-            return;
-        }
-
-        this.videoEl.requestFullscreen();
-    }
     //private getters
     getVideoList() {
         return this.videoList;

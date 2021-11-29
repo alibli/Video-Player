@@ -30,7 +30,7 @@ class ProgressbarComponent extends Component {
     }
 
     render() {
-        const { timeProgress} = this.state;
+        const { timeProgress } = this.state;
 
         return (
             <div

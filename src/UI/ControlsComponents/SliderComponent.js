@@ -15,7 +15,6 @@ class SliderComponent extends Component {
 
         this.dragButtonRef = createRef();
 
-        this.setState = this.setState.bind(this);
     }
 
     mouseMoveHandler = (e) => {
@@ -27,7 +26,6 @@ class SliderComponent extends Component {
     mouseUpHandler = (e) => {
         if (this.dragButtonMoving) {
             this.dragButtonMoving = false;
-            this.props.onMoveSlider(this.state.currentPosition);
         }
     }
 
@@ -46,9 +44,11 @@ class SliderComponent extends Component {
         const sliderSize = this.sliderRef.current.getBoundingClientRect();
 
         const mousePos = Math.min(Math.max(e.clientX, sliderSize.left) - sliderSize.left, sliderSize.width - dragButtonSize.width);
- 
-        this.setState({ currentPosition: (mousePos / (sliderSize.width - dragButtonSize.width)) * 100 });
-        this.props.onMoveSlider(this.state.currentPosition)
+        const newCurrentPosition = (mousePos / (sliderSize.width - dragButtonSize.width)) * 100;
+
+        this.setState({ currentPosition: newCurrentPosition }, () => {
+            this.props.onMoveSlider(this.state.currentPosition);
+        });
     }
 
     render() {

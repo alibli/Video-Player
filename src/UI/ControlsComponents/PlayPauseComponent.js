@@ -15,6 +15,7 @@ class PlayVideo extends Component {
         this.loadObserver = e => {
             switch (e.action) {
                 case 'SET_VIDEOLIST':
+                    console.log(playerService.getCurrentVideoStates('isPlaying'))
                     this.setState({ isPlaying: playerService.getCurrentVideoStates('isPlaying') });
                     break;
 
@@ -52,7 +53,7 @@ class PlayVideo extends Component {
         playerService.actionSubject.unsubscribe(this.actionObserver);
     }
 
-    onClickPlayPause() {
+    onClickPlay() {
         playerService.playPauseVideo();
     }
 

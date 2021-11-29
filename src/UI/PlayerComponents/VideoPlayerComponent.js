@@ -24,7 +24,6 @@ import CocoPic from "../../assets/pics/Coco Pic.jpg";
 import UpPic from "../../assets/pics/Up Pic.jpg";
 import VolumeComponent from '../ControlsComponents/VolumeComponent';
 import ForwardBackwardComponent from '../ControlsComponents/ForwardBackwardComponent';
-import FullscreenComponent from '../ControlsComponents/FullscreenComponent';
 
 class VideoPlayer extends Component {
     constructor() {
@@ -102,7 +101,6 @@ class VideoPlayer extends Component {
 
                                 <ForwardBackwardComponent />
 
-                                <FullscreenComponent />
                             </div>
                         </div>
 
