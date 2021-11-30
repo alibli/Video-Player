@@ -10,7 +10,7 @@ class VideoItemComponent extends Component {
 
         this.state = {
             playing: playerService.getIsPlayingStateById(this.props.video.id)
-        }
+        };
 
         this.actionObserver = e => {
             switch (e.action) {
@@ -27,7 +27,7 @@ class VideoItemComponent extends Component {
                 default:
                     break;
             }
-        }
+        };
 
         this.setState = this.setState.bind(this);
     }

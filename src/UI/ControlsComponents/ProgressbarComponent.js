@@ -10,7 +10,7 @@ class ProgressbarComponent extends Component {
         }
 
         this.timeObserver = e => {
-            this.setState({ timeProgress: e.time.progress })
+            this.setState({ timeProgress: e.time.progress });
         }
 
 

@@ -295,11 +295,11 @@ class PlayerService {
         let initialStates = {
             isPlaying: false,
             isEnded: false
-        }
+        };
 
         this.videoList.forEach(video => {
             this.setVideoStatesById(video.id, initialStates)
-        })
+        });
     }
 
     loadVideo(videoId) {
@@ -323,7 +323,7 @@ class PlayerService {
         this.videoEl.onloadeddata = () => {
             this.videoEl.play();
 
-            this.setVideoStatesById(videoId, { isPlaying: true })
+            this.setVideoStatesById(videoId, { isPlaying: true });
 
             this.actionSubject.notify({
                 video: this.currentVideo,

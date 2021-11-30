@@ -5,6 +5,7 @@ import { playerService } from '../../Service/PlayerService';
 class VideoInfoComponent extends Component {
     constructor() {
         super();
+        
         this.state = {
             title: '',
             description: ''

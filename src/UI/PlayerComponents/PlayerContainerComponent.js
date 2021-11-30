@@ -1,4 +1,4 @@
-import './PlayerContainerComponent.css'
+import './PlayerContainerComponent.css';
 import { Component } from 'react';
 import { playerService } from '../../Service/PlayerService';
 

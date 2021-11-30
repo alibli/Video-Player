@@ -3,7 +3,7 @@ import { playerService } from '../../Service/PlayerService';
 
 class VideoElComponent extends Component {
     constructor() {
-        super()
+        super();
         
         this.videoRef = createRef();
     }

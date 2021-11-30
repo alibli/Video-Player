@@ -10,7 +10,7 @@ class SuggestListComponent extends Component {
         this.state = {
             suggestedList: [],
             isEnded: null
-        }
+        };
 
         this.loadObserver = e => {
             switch (e.action) {
@@ -23,7 +23,7 @@ class SuggestListComponent extends Component {
                 default:
                     break;
             }
-        }
+        };
 
         this.actionObserver = e => {
             switch (e.action) {
@@ -48,7 +48,7 @@ class SuggestListComponent extends Component {
                 default:
                     break;
             }
-        }
+        };
 
         this.setState = this.setState.bind(this);
     }

@@ -6,6 +6,7 @@ import VideoItemComponent from './VideoItemComponent';
 class VideoListComponent extends Component {
     constructor() {
         super();
+        
         this.state = {
             videoList: [],
             videosStates: {},
