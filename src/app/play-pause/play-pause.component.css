@@ -1,0 +1,12 @@
+.play-icon{
+    font-size: 450px;
+    position: absolute;
+    top: 20%;
+    left: 35%;
+    opacity: 0.8;
+    color: rgb(240, 232, 222);
+}
+/* 
+.play-pause-icon{
+    font-size: 30px;
+} */

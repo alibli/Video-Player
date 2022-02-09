@@ -1,0 +1,26 @@
+.playList{
+    background-color: rgb(240, 240, 237);
+    height: 700px;
+    width: 280px;
+    overflow: scroll;
+    overflow-x: hidden;
+    margin-top: 15%;
+    
+}
+.card{
+    text-align: center;
+    margin : 5px;
+}
+
+.play-icon{
+    font-size: 80px;
+    position: absolute;
+    /* width: 90%; */
+    left: 35%;
+    top: 10%;
+    color: red;
+}
+
+body{
+    z-index: 0;
+}

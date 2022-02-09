@@ -1,0 +1,5 @@
+<i *ngIf="!play" type='button' (click)="togglePlay()" class="fa fa-play-circle play-icon"></i>
+<div>
+    <div *ngIf="play" class="fa fa-pause play-pause-icon" type='button' (click)="togglePlay()"></div>
+    <div *ngIf="!play" class="fa fa-play play-pause-icon" type='button' (click)="togglePlay()"></div>
+</div>

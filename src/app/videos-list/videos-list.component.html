@@ -1,0 +1,10 @@
+<div class="row">   
+    <div *ngFor="let item of suggestedVideoList" class="col col-2 kart">
+        <div class="card" style="width: 15rem;">
+            <img class="card-img-top" src="../../assets/Clips/{{item.poster}}" alt="{{item.poster}}" (click)= 'change(item)'>
+            <div class="card-body">
+                <a class="card-text" style="text-decoration: none;" (click)= 'change(item)'>{{item.title}}</a>
+            </div>
+        </div>
+    </div>
+</div>

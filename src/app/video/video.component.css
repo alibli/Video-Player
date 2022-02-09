@@ -1,0 +1,19 @@
+.container{
+    margin: auto;
+    margin-top: 100px;
+    position: relative;
+}
+.title{
+    font-size: 25px;
+}
+.container2{
+    position: relative;
+}
+
+.video-controls{
+    z-index: 0;
+    /* position: absolute;
+    top: 99%;
+    left: 5%; */
+    
+}

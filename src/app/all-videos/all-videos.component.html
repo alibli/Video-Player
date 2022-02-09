@@ -1,0 +1,24 @@
+<br>
+<h2>Other Videos</h2>
+<div class="playList">
+    <div *ngFor="let item of allVideos" class="row">
+        
+        <div *ngIf="currentVideoId != item.id" class="card" style="width: 15rem;">
+            <img class="card-img-top" src="../../assets/Clips/{{item.poster}}" alt="{{item.poster}}"  (click)= 'change(item)'>
+            <i class="fa fa-play-circle play-icon" (click)= 'change(item)'></i>
+            <div class="card-body">
+                <button class="card-text btn " style="text-decoration: none;" (click)= 'change(item)'>{{item.title}}</button>
+            </div>
+        </div>
+
+        <div *ngIf="currentVideoId == item.id" class="card" style="width: 15rem; border-color: blue; background-color: rgb(193, 220, 241);">
+            <img class="card-img-top" src="../../assets/Clips/{{item.poster}}" alt="{{item.poster}}"  >
+
+            <div class="card-body">
+                <button class="card-text btn " style="text-decoration: none;" >{{item.title}}</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>

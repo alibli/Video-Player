@@ -1,0 +1,52 @@
+<div class="row" player-container [source]="videosList">
+    <div class="container col col-9">
+
+        <div class="container2">
+            <app-video-element></app-video-element>   
+            <app-prev-next></app-prev-next>  
+        </div>
+    
+        <div class="row video-controls">
+            
+            <app-progress-bar></app-progress-bar>  
+            
+            <app-time class="col-1"></app-time>
+    
+            <app-play-pause class="col-1"></app-play-pause>  
+    
+            <app-mute-unmute class="col-1"></app-mute-unmute>
+            
+            <app-volume class="col col-2"></app-volume>
+            
+            <app-rate class="col col-2"></app-rate>
+
+            <app-back-forward-time></app-back-forward-time>   
+    
+            <app-title></app-title>
+
+        </div>
+        
+        <app-videos-list></app-videos-list> 
+        
+    </div>
+
+    <div class="col-2">
+        <app-all-videos></app-all-videos>
+    </div>
+
+<!-- <myvideo [source]="">
+    <video></video>
+    <app-progress-bar></app-progress-bar>    
+    
+
+
+    <app-play-pause class="col-1"></app-play-pause>  
+
+    <app-mute-unmute class="col-1"></app-mute-unmute>
+    
+    <app-volume class="col col-2"></app-volume>
+
+</myvideo> -->
+
+<!-- <div type='button' class="btn btn-success" (click)='logGetSuggestionByVideoId()'>test</div> -->
+</div>

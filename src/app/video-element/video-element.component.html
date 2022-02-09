@@ -1,0 +1,10 @@
+<div class="container">
+    
+    <video class="videoClass" #sampleVid></video>
+    
+    <div class="expand-compress">
+        <i type='button' *ngIf="!isFullscreen" class="fa fa-expand btn btn-dark" (click)='openFullscreen()'></i>
+        <i type='button' *ngIf="isFullscreen" class="fa fa-compress btn btn-dark" (click)='closeFullscreen()' #compress></i>
+    </div>
+
+</div>

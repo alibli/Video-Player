@@ -1,0 +1,16 @@
+<!-- 
+<progress 
+    class="col col-12" 
+    id="progress" 
+    [value]="progressPercent" 
+    max="100" 
+    (mousedown)='onMouseClick($event)' 
+    (mousemove)='onMouseMove($event)' 
+    (mouseup)='onMouseUp()'>
+</progress> -->
+
+<!-- <span class="dot" [style.left]='progressPercent *(98/100) + "%"'></span> -->
+
+<app-slider (onChange)='onProgressChange($event)'
+ [progressPercent]='progressPercent'
+ ></app-slider>

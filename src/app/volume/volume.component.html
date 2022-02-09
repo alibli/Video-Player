@@ -1,0 +1,22 @@
+<label for="cars">Volume</label>
+<!-- <input type="text" [(ngModel)]="volume"/> -->
+<select name="cars" id="cars"   (change)="onChanged($event)" #select  >
+    <optgroup label="Volume">
+        <!-- <option value="1">---</option> -->
+        <option [value]="1" selected>100%</option>
+        <option [value]="0.75">75%</option>
+        <option [value]="0.50">50%</option>
+        <option [value]="0.25">25%</option>
+        <option [value]="0">0</option>
+    </optgroup>
+</select>
+
+<!-- <div class="btn-group dropup">
+    <button id="dLabel" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Dropup
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dLabel">
+      <a href="">sss</a>
+      <a href="">jjj</a>
+    </div>
+  </div> -->
